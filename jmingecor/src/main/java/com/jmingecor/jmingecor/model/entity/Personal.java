@@ -19,7 +19,7 @@ public class Personal implements Serializable{
     @Column(name = "id_personal")
     private Long id_personal;
 
-    @ManyToOne
+    //@ManyToOne
     @Column(name = "id_cargo")
     Cargo cargo;
 

@@ -19,7 +19,7 @@ public class Material implements Serializable{
     @Column(name = "id_materiales")
     private Long id_materiales;
 
-    @ManyToOne
+    //@ManyToOne
     @Column(name = "id_categoria")
     Categoria categoria;
 

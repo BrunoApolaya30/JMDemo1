@@ -19,7 +19,7 @@ public class Jornales implements Serializable{
     @Column(name = "id_jornal")
     private Long id_jornal;
 
-    @ManyToOne
+    //@ManyToOne
     @Column(name = "id_categoria")
     Categoria categoria;
 

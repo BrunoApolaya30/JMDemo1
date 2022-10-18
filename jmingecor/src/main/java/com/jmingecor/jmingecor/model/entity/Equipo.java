@@ -28,7 +28,7 @@ public class Equipo implements Serializable{
      @Column(name = "id_equipo")
      private Long id_equipo;
 
-     @ManyToOne
+     //@ManyToOne
      @JoinColumn(name = "id_categoria")
      Categoria categoria;
 

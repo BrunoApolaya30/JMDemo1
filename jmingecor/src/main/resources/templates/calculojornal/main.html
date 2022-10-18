@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/estilos.css}" rel="stylesheet" />
+    <title>Document</title>
+</head>
+<body>
+    <div id="wrapper">
+      <h1>CALCULO DE JORNALES VIGENTES 2022</h1>
+      <button type="button" class="botonFlotante">Agregar categoria</button>
+      <div class="tablas_completo">
+        <div class="menu_tabla">
+          <table id="keywords" cellspacing="0" cellpadding="0" >
+            <thead>
+              <tr>
+                <th class="lalign">Descripcion</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="lalign">Sueldo basio mensual</td>
+              </tr>
+              <tr>
+                <td class="lalign">Remuneracion basico / dia</td>
+              </tr>
+              <tr>
+                <td class="lalign">Horas Extra Proyectadas  2H al 30%</td>
+              </tr>
+              <tr>
+                <td class="lalign"><b>JORNAL</b></td>
+              </tr>
+              <tr>
+                <td class="lalign"><b>Leyes y beneficios sociales sobre la RB</b></td>
+              </tr>
+              <tr>
+                <td class="lalign">Vacaciones Truncas</td>
+              </tr>
+              <tr>
+               <td class="lalign">Compensacion por Tiempo de Servicio CTS </td>
+             </tr>
+             <tr>
+               <td class="lalign">Gratificaciones</td>
+             </tr>
+             <tr>
+               <td class="lalign">Bonif. Gratifica.  9%</td>
+             </tr>
+             <tr>
+               <td class="lalign"><b>Aportaciones y Prestaciones del Empleador</b></td>
+             </tr>
+             <tr>
+               <td class="lalign">ESSALUD  9%</td>
+             </tr>
+             <tr>
+               <td class="lalign">Seguro Vida Ley  1.55%</td>
+             </tr>
+             <tr>
+               <td class="lalign">Bonificaciòn por movilidad</td>
+             </tr>
+             <tr>
+               <td class="lalign">Overol (Uniforme)</td>
+             </tr>
+             <tr>
+               <td class="lalign">SCTR</td>
+             </tr>
+             <tr>
+               <td class="lalign"><b>JORNAL DIARIO</b></td>
+             </tr>
+             <tr>
+               <td class="lalign"><b>JORNAL HORARIO</b></td>
+             </tr>
+             <tr>
+              <td>-</td>
+             </tr>
+             <tr>
+              <td>-</td>
+             </tr>
+            </tbody>
+          </table>
+        </div>
+        <div th:each="item: ${listaCalculosJornal}" class="tablas">
+          <table id="keywords" cellspacing="0" cellpadding="0" >
+            <thead>
+              <tr>
+                <th class="lalign2" th:text="${item.id_calculo_jornal}"></td>
+              </tr>
+            </thead>
+            <tbody >
+              <tr>
+                  
+              </tr>
+              <tr>
+                  <td class="lalign2" th:text="${item.sueldo_basico_jornal}"></td>
+              </tr>
+              <tr>
+                  <td class="lalign2" th:text="${item.remuneracion_basica_dia_jornal}"></td>
+              </tr>
+              <tr>
+                  <td class="lalign2" th:text="${item.horas_extra_proyectadas_jornal}"></td>
+              </tr>
+              <tr >
+                  <td class="lalign2" th:text="${item.jornal}"></td>
+              </tr>
+              <tr>
+                <td>-</td>
+              </tr>
+              <tr>
+                  <td class="lalign2" th:text="${item.vacaciones_truncas}"></td>
+              </tr>
+              <tr>
+                  <td class="lalign2" th:text="${item.cts_jornal}"></td>
+              </tr>
+              <tr>
+                  <td class="lalign2" th:text="${item.gratificaciones_jornal}"></td>
+              </tr>
+              <tr >
+                <td class="lalign2" th:text="${item.bonif_gratifica_jornal}"></td>
+              </tr>
+              <tr>
+                <td>-</td>
+              </tr>
+              <tr>
+                  <td class="lalign2" th:text="${item.essalud_jornal}"></td>
+              </tr>
+              <tr>
+                  <td class="lalign2" th:text="${item.seguro_vida_jornal}"></td>
+              </tr>
+              <tr>
+                  <td class="lalign2" th:text="${item.bonific_movil_jornal}"></td>
+              </tr>
+              <tr >
+                <td class="lalign2" th:text="${item.overol_jornal}"></td>
+              </tr>
+              <tr>
+                  <td class="lalign2" th:text="${item.sctr_jornal}"></td>
+              </tr>
+              <tr>
+                  <td class="lalign2" th:text="${item.jornal_diario}"></td>
+              </tr>
+              <tr>
+                  <td class="lalign2" th:text="${item.jornal_horario}"></td>
+              </tr>
+              <tr>
+                <td>
+                    <a th:href="@{/editar/} + ${item.id_calculo_jornal}">Editar</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a th:href="@{/eliminar/} + ${item.id_calculo_jornal}" onclick="return confirm('Esta seguro que desea eliminar?')">Eliminar</a>
+                </td>
+            </tr>
+           </tbody>
+          </table>
+        </div>
+      </div>
+      
+     <!--
+      <table id="keywords" cellspacing="0" cellpadding="0">
+       <thead>
+         <tr>
+           <th><span>Descripcion</span></th>
+           <th><span>Tecnico Lider</span></th>
+           <th><span>Tecnico especialista</span></th>
+           <th><span>Asistente tecnico</span></th>
+           <th><span>Auxiliar tecnico</span></th>
+           <th><span>Ayudante</span></th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr>
+           <td class="lalign">Sueldo basio mensual</td>
+           <td>6,000</td>
+           <td>110</td>
+           <td>1.8%</td>
+           <td>22.2</td>
+           <td>22.2</td>
+         </tr>
+         <tr>
+           <td class="lalign">Remuneracion basico / dia</td>
+           <td>2,200</td>
+           <td>500</td>
+           <td>22%</td>
+           <td>8.9</td>
+           <td>22.2</td>
+         </tr>
+         <tr>
+           <td class="lalign">Horas Extra Proyectadas  2H al 30%</td>
+           <td>13,500</td>
+           <td>900</td>
+           <td>6.7%</td>
+           <td>12.0</td>
+           <td>22.2</td>
+         </tr>
+         <tr>
+           <td class="lalign"><b>JORNAL</b></td>
+           <td>8,700</td>
+           <td>350</td>
+           <td>4%</td>
+           <td>7.0</td>
+           <td>22.2</td>
+         </tr>
+         <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+         </tr>
+         <tr>
+           <td class="lalign"><b>Leyes y beneficios sociales sobre la RB</b></td>
+           <td>9,900</td>
+           <td>460</td>
+           <td>4.6%</td>
+           <td>11.5</td>
+           <td>22.2</td>
+         </tr>
+         <tr>
+           <td class="lalign">Vacaciones Truncas</td>
+           <td>10,500</td>
+           <td>748</td>
+           <td>7.1%</td>
+           <td>17.3</td>
+           <td>22.2</td>
+         </tr>
+         <tr>
+          <td class="lalign">Compensacion por Tiempo de Servicio CTS </td>
+          <td>10,500</td>
+          <td>748</td>
+          <td>7.1%</td>
+          <td>17.3</td>
+          <td>22.2</td>
+        </tr>
+        <tr>
+          <td class="lalign">Gratificaciones</td>
+          <td>10,500</td>
+          <td>748</td>
+          <td>7.1%</td>
+          <td>17.3</td>
+          <td>22.2</td>
+        </tr>
+        <tr>
+          <td class="lalign">Bonif. Gratifica.  9%</td>
+          <td>10,500</td>
+          <td>748</td>
+          <td>7.1%</td>
+          <td>17.3</td>
+          <td>22.2</td>
+        </tr>
+        <tr>
+          <td class="lalign"><b>Aportaciones y Prestaciones del Empleador</b></td>
+          <td>10,500</td>
+          <td>748</td>
+          <td>7.1%</td>
+          <td>17.3</td>
+          <td>22.2</td>
+        </tr>
+        <tr>
+          <td class="lalign">ESSALUD  9%</td>
+          <td>10,500</td>
+          <td>748</td>
+          <td>7.1%</td>
+          <td>17.3</td>
+          <td>22.2</td>
+        </tr>
+        <tr>
+          <td class="lalign">Seguro Vida Ley  1.55%</td>
+          <td>10,500</td>
+          <td>748</td>
+          <td>7.1%</td>
+          <td>17.3</td>
+          <td>22.2</td>
+        </tr>
+        <tr>
+          <td class="lalign">Bonificaciòn por movilidad</td>
+          <td>10,500</td>
+          <td>748</td>
+          <td>7.1%</td>
+          <td>17.3</td>
+          <td>22.2</td>
+        </tr>
+        <tr>
+          <td class="lalign">Overol (Uniforme)</td>
+          <td>10,500</td>
+          <td>748</td>
+          <td>7.1%</td>
+          <td>17.3</td>
+          <td>22.2</td>
+        </tr>
+        <tr>
+          <td class="lalign">SCTR</td>
+          <td>10,500</td>
+          <td>748</td>
+          <td>7.1%</td>
+          <td>17.3</td>
+          <td>22.2</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+         </tr>
+        <tr>
+          <td class="lalign"><b>JORNAL DIARIO</b></td>
+          <td>10,500</td>
+          <td>748</td>
+          <td>7.1%</td>
+          <td>17.3</td>
+          <td>22.2</td>
+        </tr>
+        <tr>
+          <td class="lalign"><b>JORNAL HORARIO</b></td>
+          <td>10,500</td>
+          <td>748</td>
+          <td>7.1%</td>
+          <td>17.3</td>
+          <td>22.2</td>
+        </tr>
+       </tbody>
+     </table>
+     -->
+    </div> 
+</body>
+</html>

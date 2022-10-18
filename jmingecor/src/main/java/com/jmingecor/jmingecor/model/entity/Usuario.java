@@ -24,7 +24,7 @@ public class Usuario implements Serializable{
     @Column(name = "id_usuario")
     private Long id_usuario;
 
-    @ManyToOne
+    //@ManyToOne
     @Column(name = "id_cargo")
     Cargo cargo;
 

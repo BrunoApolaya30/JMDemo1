@@ -24,11 +24,11 @@ public class SeguimientoControl implements Serializable{
     @Column(name = "id_control")
     private Long id_control;
 
-    @ManyToOne
+    //@ManyToOne
     @Column(name = "id_categoria")
     Categoria categoria;
 
-    @ManyToOne
+    //@ManyToOne
     @Column(name = "id_almacen")
     Almacen almacen;
 

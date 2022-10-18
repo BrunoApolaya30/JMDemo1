@@ -4,15 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.jmingecor.jmingecor.model.entity.CalculoJornal;
 import com.jmingecor.jmingecor.model.service.ICalculoJornalService;
 
 @Controller
+@RequestMapping("/calculojornal")
 public class CalculoJornalController {
     @Autowired
     private ICalculoJornalService calculoJornalService;
 
+    @RequestMapping("/")
      public String index(Model model) {
         CalculoJornal objCalculoJornal = new CalculoJornal();
         model.addAttribute("calculoJornal", objCalculoJornal);
