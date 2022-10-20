@@ -7,7 +7,7 @@
     <link th:href="@{/css/estilos.css}" rel="stylesheet" />
     <title>Document</title>
 </head>
-<body>
+<body onload="calcularJornal();">
     <div id="wrapper">
       <h1>CALCULO DE JORNALES VIGENTES 2022</h1>
       <button type="button" class="botonFlotante">Agregar categoria</button>
@@ -92,16 +92,16 @@
                   
               </tr>
               <tr>
-                  <td class="lalign2" th:text="${item.sueldo_basico_jornal}"></td>
+                  <td class="lalign2" id="valor1" th:text="${item.sueldo_basico_jornal}"></td>
               </tr>
               <tr>
-                  <td class="lalign2" th:text="${item.remuneracion_basica_dia_jornal}"></td>
+                  <td class="lalign2" id="valor2" th:text="${item.remuneracion_basica_dia_jornal}"></td>
               </tr>
               <tr>
-                  <td class="lalign2" th:text="${item.horas_extra_proyectadas_jornal}"></td>
+                  <td class="lalign2" id="valor3" th:text="${item.horas_extra_proyectadas_jornal}"></td>
               </tr>
               <tr >
-                  <td class="lalign2" th:text="${item.jornal}"></td>
+                  <td class="lalign2" id="valorJornal" th:text="${item.jornal}"></td>
               </tr>
               <tr>
                 <td>-</td>
@@ -144,185 +144,39 @@
               </tr>
               <tr>
                 <td>
-                    <a th:href="@{/editar/} + ${item.id_calculo_jornal}">Editar</a>
+                  <!--<button class="open-button" onclick="openForm()">Open Form</button>-->
+                  <a th:href="@{/calculojornal/editar/} + ${item.id_calculo_jornal}">Editar</a>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <a th:href="@{/eliminar/} + ${item.id_calculo_jornal}" onclick="return confirm('Esta seguro que desea eliminar?')">Eliminar</a>
+                    <a th:href="@{/calculojornal/eliminar/} + ${item.id_calculo_jornal}" onclick="return confirm('Esta seguro que desea eliminar?')">Eliminar</a>
                 </td>
             </tr>
            </tbody>
           </table>
         </div>
       </div>
+    </div>
+    <div class="form-popup" id="myForm">
+      <form th:action="@{/formGuardar}" th:object="${calculoJornal}" method="post" class="form-container">
+          <input type="hidden" th:field="*{id_calculo_jornal}">  
+          <h1>Editar jornal</h1>
+          <label for="sueldo_basico_mensual"><b>Sueldo basico mensual</b></label>
+          <input type="text" placeholder="Ingrese datos" th:field="*{sueldo_basico_jornal}" name="sueldo_basico_mensual" required>
       
-     <!--
-      <table id="keywords" cellspacing="0" cellpadding="0">
-       <thead>
-         <tr>
-           <th><span>Descripcion</span></th>
-           <th><span>Tecnico Lider</span></th>
-           <th><span>Tecnico especialista</span></th>
-           <th><span>Asistente tecnico</span></th>
-           <th><span>Auxiliar tecnico</span></th>
-           <th><span>Ayudante</span></th>
-         </tr>
-       </thead>
-       <tbody>
-         <tr>
-           <td class="lalign">Sueldo basio mensual</td>
-           <td>6,000</td>
-           <td>110</td>
-           <td>1.8%</td>
-           <td>22.2</td>
-           <td>22.2</td>
-         </tr>
-         <tr>
-           <td class="lalign">Remuneracion basico / dia</td>
-           <td>2,200</td>
-           <td>500</td>
-           <td>22%</td>
-           <td>8.9</td>
-           <td>22.2</td>
-         </tr>
-         <tr>
-           <td class="lalign">Horas Extra Proyectadas  2H al 30%</td>
-           <td>13,500</td>
-           <td>900</td>
-           <td>6.7%</td>
-           <td>12.0</td>
-           <td>22.2</td>
-         </tr>
-         <tr>
-           <td class="lalign"><b>JORNAL</b></td>
-           <td>8,700</td>
-           <td>350</td>
-           <td>4%</td>
-           <td>7.0</td>
-           <td>22.2</td>
-         </tr>
-         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-         </tr>
-         <tr>
-           <td class="lalign"><b>Leyes y beneficios sociales sobre la RB</b></td>
-           <td>9,900</td>
-           <td>460</td>
-           <td>4.6%</td>
-           <td>11.5</td>
-           <td>22.2</td>
-         </tr>
-         <tr>
-           <td class="lalign">Vacaciones Truncas</td>
-           <td>10,500</td>
-           <td>748</td>
-           <td>7.1%</td>
-           <td>17.3</td>
-           <td>22.2</td>
-         </tr>
-         <tr>
-          <td class="lalign">Compensacion por Tiempo de Servicio CTS </td>
-          <td>10,500</td>
-          <td>748</td>
-          <td>7.1%</td>
-          <td>17.3</td>
-          <td>22.2</td>
-        </tr>
-        <tr>
-          <td class="lalign">Gratificaciones</td>
-          <td>10,500</td>
-          <td>748</td>
-          <td>7.1%</td>
-          <td>17.3</td>
-          <td>22.2</td>
-        </tr>
-        <tr>
-          <td class="lalign">Bonif. Gratifica.  9%</td>
-          <td>10,500</td>
-          <td>748</td>
-          <td>7.1%</td>
-          <td>17.3</td>
-          <td>22.2</td>
-        </tr>
-        <tr>
-          <td class="lalign"><b>Aportaciones y Prestaciones del Empleador</b></td>
-          <td>10,500</td>
-          <td>748</td>
-          <td>7.1%</td>
-          <td>17.3</td>
-          <td>22.2</td>
-        </tr>
-        <tr>
-          <td class="lalign">ESSALUD  9%</td>
-          <td>10,500</td>
-          <td>748</td>
-          <td>7.1%</td>
-          <td>17.3</td>
-          <td>22.2</td>
-        </tr>
-        <tr>
-          <td class="lalign">Seguro Vida Ley  1.55%</td>
-          <td>10,500</td>
-          <td>748</td>
-          <td>7.1%</td>
-          <td>17.3</td>
-          <td>22.2</td>
-        </tr>
-        <tr>
-          <td class="lalign">Bonificaciòn por movilidad</td>
-          <td>10,500</td>
-          <td>748</td>
-          <td>7.1%</td>
-          <td>17.3</td>
-          <td>22.2</td>
-        </tr>
-        <tr>
-          <td class="lalign">Overol (Uniforme)</td>
-          <td>10,500</td>
-          <td>748</td>
-          <td>7.1%</td>
-          <td>17.3</td>
-          <td>22.2</td>
-        </tr>
-        <tr>
-          <td class="lalign">SCTR</td>
-          <td>10,500</td>
-          <td>748</td>
-          <td>7.1%</td>
-          <td>17.3</td>
-          <td>22.2</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-         </tr>
-        <tr>
-          <td class="lalign"><b>JORNAL DIARIO</b></td>
-          <td>10,500</td>
-          <td>748</td>
-          <td>7.1%</td>
-          <td>17.3</td>
-          <td>22.2</td>
-        </tr>
-        <tr>
-          <td class="lalign"><b>JORNAL HORARIO</b></td>
-          <td>10,500</td>
-          <td>748</td>
-          <td>7.1%</td>
-          <td>17.3</td>
-          <td>22.2</td>
-        </tr>
-       </tbody>
-     </table>
-     -->
-    </div> 
+          <label for="bonificacion_movilidad"><b>Bonificacion por movilidad</b></label>
+          <input type="text" placeholder="Ingrese datos" th:field="*{bonific_movil_jornal}" name="bonificacion_movilidad" required>
+
+          <label for="uniforme"><b>Costo uniforme</b></label>
+          <input type="text" placeholder="Ingrese datos" th:field="*{overol_jornal}" name="uniforme" required>
+      
+          <button type="submit" class="btn">Guardar</button>
+          <button type="button" class="btn cancel" onclick="closeForm()">Cancelar</button>
+      </form>
+  </div>
+    
+
+    <script type="text/javascript" th:src="@{/js/script.js}"></script>
 </body>
 </html>

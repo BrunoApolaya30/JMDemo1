@@ -18,7 +18,7 @@ public class CalculoJornal implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_calculo_jornal")
     public Long id_calculo_jornal;
-
+    
     //@ManyToOne
     //@Column(name = "id_categoria")
     //Categoria categoria;
