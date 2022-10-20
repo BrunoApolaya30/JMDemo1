@@ -4,16 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.jmingecor.jmingecor.model.entity.Categoria;
 import com.jmingecor.jmingecor.model.service.ICategoriaService;
 
 @Controller
+@RequestMapping("/categoria")
 public class CategoriaController {
     @Autowired
     private ICategoriaService categoriaService;
 
-    
+    @RequestMapping("/")
     public String index(Model model) {
         Categoria objCategoria = new Categoria();
         model.addAttribute("categoria", objCategoria);

@@ -4,15 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.jmingecor.jmingecor.model.entity.Equipo;
 import com.jmingecor.jmingecor.model.service.IEquipoService;
 
 @Controller
+@RequestMapping("/equipo")
 public class EquipoController {
     @Autowired
     private IEquipoService equipoService;
-
+    @RequestMapping("/")
     public String index(Model model) {
         Equipo objEquipo = new Equipo();
         model.addAttribute("equipo", objEquipo);

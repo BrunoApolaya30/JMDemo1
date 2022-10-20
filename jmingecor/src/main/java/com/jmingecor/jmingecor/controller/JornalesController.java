@@ -4,16 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.jmingecor.jmingecor.model.entity.Jornales;
 import com.jmingecor.jmingecor.model.service.IJornalesService;
 
 @Controller
+@RequestMapping("/jornales")
 public class JornalesController {
     @Autowired
     private IJornalesService jornalesService;
 
-    
+    @RequestMapping("/")
     public String index(Model model) {
         Jornales objJornales = new Jornales();
         model.addAttribute("jornales", objJornales);
