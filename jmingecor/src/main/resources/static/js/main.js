@@ -36,8 +36,7 @@ $(document).ready(function () {
   $(".btn-exit").on("click", function () {
     swal(
       {
-        title: "You want out of the system?",
-        text: "The current session will be closed and will leave the system",
+        title: "Desea Salir del Sistema JMINGECOR?",
         type: "warning",
         showCancelButton: true,
         confirmButtonText: "Yes, exit",

@@ -7,6 +7,212 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
     <aside th:replace="layout/fragmentos :: aside"></aside>
     <section class="full-width pageContent">
         <div class="full-width navBar" th:replace="layout/fragmentos :: navbar" ></div>
+        <section class="section">
+        <div class="container-fluid py-4">
+                <div class="alert alert-info w-75 text-center mx-auto my-0" role="alert"
+                    th:if="${mensajeFinal != null}">
+                    <span th:text="${mensajeFinal}"></span>
+                </div>
+                <div class="card w-75 mx-auto ">
+                    <div class="card-header text-dark py-4">
+                        <div class="row justify-content-evenly align-items-center">
+                            <div class="col-12 col-lg-6 text-center fw-600 fs-3">Materiales Actualmente</div>
+                            <div class="col-12 col-lg-6 text-center">
+                                <div class="row py-3 justify-content-center">
+                                    <div class="col-12">
+                                        <form th:action="@{/categoria/buscar/}" style="display: none;">
+                                            <button type="submit"  class="btn-sm btn-primary px-4 py-2"><i class="fas fa-search p-0 m-0"></i></button>
+                                        </form>
+                                        <input type="text" id="search" name="id" placeholder="Buscar" class="text-start ps-2 mx-4 p-0 dash_search">
+                                        <a href="" id="agregarcategoria" class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#formModal" >
+                                            AGREGAR
+                                            <i id="iconproveedor" class="fas fa-plus "></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive ">
+                        <div class="row pb-3">
+                            <div class="col-12">
+                                <p class="d-inline">Mostrar</p>
+                                <select id="select" name="select">
+                                    <option value="5" th:selected=" ${numPage ==  5 } ?  true : false">5</option>
+                                    <option value="10" th:selected=" ${numPage == 10 } ?  true : false">10</option>
+                                    <option value="15" th:selected=" ${numPage == 15 } ?  true : false">15</option>
+                                </select>
+                                <p class="d-inline">Registros</p>
+                            </div>
+                        </div>
+                        <table class="table table-hover table-bordered text-center ">
+                            <thead>
+                                <tr>
+                                    <th class="px-3">ID</th>
+                                    <th class="px-3">Nombre</th>
+                                    <th class="px-3">Descripción</th>
+                                    <th class="px-3"></th>
+                                    <th class="px-3"></th>
+                                    <th class="px-4"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item: ${list}">
+                                    <td th:text="${item.id}"></td>
+                                    <td th:text="${item.nombre}" th:data-nombre="${item.nombre}" ></td>
+                                    <td th:text="${item.descripcion}"></td>                               
+                                    <td>
+                                        <a 
+                                         th:href="@{/categoria/editar/} + ${item.id}" 
+                                         id="editcategoria"
+                                         th:data-id="${item.id}"
+                                         th:data-name="${item.nombre}"
+                                         th:data-descripcion="${item.descripcion}"
+                                         class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#formModal"> 
+                                         <i class="fas fa-edit" ></i> Editar</a>
+                                    </td>
+                                    <td>
+                                        <a 
+                                        id="eliminarcategoria"
+                                        th:data-id="${item.id}"
+                                        data-bs-toggle="modal" data-bs-target="#formModal2"                                    
+                                        class="btn btn-danger"> 
+                                        <i class="fas fa-trash pe-1"></i>Eliminar</a>
+                                    </td>
+                                    <td>
+                                        <a 
+                                        th:href="@{/categoria/ver/} + ${item.id}" 
+                                        id="vercategoria"
+                                        th:data-id="${item.id}"
+                                        th:data-name="${item.nombre}"
+                                        th:data-descripcion="${item.descripcion}"
+                                        class="btn btn-secondary px-2" data-bs-toggle="modal" data-bs-target="#formModal"> 
+                                        <i class="fas fa-eye pe-1 "></i>Ver</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                  <td>0001</td>
+                                  <td>Material1</td>
+                                  <td>Material Nuevo</td>
+                                  <td>
+                                        <a 
+                                         class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#formModal"> 
+                                         <i class="fas fa-edit" ></i> Editar</a>
+                                  </td>
+                                  <td>
+                                        <a 
+                                         class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#formModal"> 
+                                         <i class="fas fa-trash" ></i> Eliminar</a>
+                                  </td>
+                                  <td>
+                                        <a 
+                                         class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#formModal"> 
+                                         <i class="fas fa-eye" ></i> Detalle</a>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>0001</td>
+                                  <td>Material1</td>
+                                  <td>Material Nuevo</td>
+                                  <td>
+                                        <a 
+                                         class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#formModal"> 
+                                         <i class="fas fa-edit" ></i> Editar</a>
+                                  </td>
+                                  <td>
+                                        <a 
+                                         class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#formModal"> 
+                                         <i class="fas fa-trash" ></i> Eliminar</a>
+                                  </td>
+                                  <td>
+                                        <a 
+                                         class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#formModal"> 
+                                         <i class="fas fa-eye" ></i> Detalle</a>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>0001</td>
+                                  <td>Material1</td>
+                                  <td>Material Nuevo</td>
+                                  <td>
+                                        <a 
+                                         class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#formModal"> 
+                                         <i class="fas fa-edit" ></i> Editar</a>
+                                  </td>
+                                  <td>
+                                        <a 
+                                         class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#formModal"> 
+                                         <i class="fas fa-trash" ></i> Eliminar</a>
+                                  </td>
+                                  <td>
+                                        <a 
+                                         class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#formModal"> 
+                                         <i class="fas fa-eye" ></i> Detalle</a>
+                                  </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                            <div class="col-12">
+                                <nav aria-label="Pagination">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item" th:classappend="${prev == 0 ? 'disabled' : ''}">
+                                            <a class="page-link" th:href="@{|/categoria/?page=${prev}|}"><span
+                                                    aria-hidden="true">&laquo;</span></a>
+                                        </li>
+                                        <li class="page-item" th:each="page : ${pages}"
+                                            th:classappend="${current == page ? 'active' : ''}">
+                                            <a class="page-link" th:href="@{|/categoria/?page=${page}|}"
+                                                th:text="${page}"></a>
+                                        </li>
+                                        <li class="page-item" th:classappend="${current == last ? 'disabled' : ''}">
+                                            <a class="page-link" th:href="@{|/categoria/?page=${next}|}"><span
+                                                    aria-hidden="true">&raquo;</span></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                    </div>
+                </div>                       
+        </div>
+      </section>
     </section>
+    <!-- //* Modal Agregar -->
+    <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form  method="post" >
+                    <input id="id" type="hidden">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" ></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class ="row">
+                            <div class="col-12  mb-3">
+                                <label>Nombre</label>
+                                <input id="name" type="text" class="form-control" placeholder="Ingrese nombre"/>
+                            </div>
+                        </div>   
+                        <div class="row">
+                            <div class="col-12  mb-3">
+                                <label>Descripción</label>
+                                <input id="descripcion" type="text" class="form-control" placeholder="Ingrese la Descripción"/>
+                            </div>
+                        </div>                             
+                    </div>
+                    <div class="modal-footer">
+                        
+                        <button id="categorialimpiar" type="button"  class="btn btn-secondary text-black ">LIMPIAR</button>
+                        <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
+                        <input type="submit" id="btn-guardar" class="btn btn-primary" value="GUARDAR">
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="layout/fragmentos :: extra"></div>
   </body>
 </html>
