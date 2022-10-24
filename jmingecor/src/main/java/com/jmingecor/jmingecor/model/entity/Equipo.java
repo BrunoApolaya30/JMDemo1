@@ -18,29 +18,34 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name ="equipos")
-public class Equipo implements Serializable{
-    /*
-     usuario, cliente, personal, cargo y contactoCampo
-     */
-
+public class Equipo implements Serializable {
+    
      @Id
      @GeneratedValue(strategy = GenerationType.IDENTITY)
      @Column(name = "id_equipo")
      private Long id_equipo;
 
-     //@ManyToOne
+     @ManyToOne
      @JoinColumn(name = "id_categoria")
      Categoria categoria;
+    
+     public Categoria getCategoria() {
+        return categoria;
+     }
 
-     @Column(name = "nombre_equipo")
+     public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+     }
+
+    @Column(name = "nombre_equipo")
      private String nombre_equipo;
 
      @Column(name = "descripcion_equipo")
      private String descripcion_equipo;
 
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "fecha_equipo")
+     @Temporal(TemporalType.DATE)
+     @DateTimeFormat(pattern = "dd-MM-yyyy")
+     @Column(name = "fecha_equipo")
      private Date fecha_equipo;
 
      @Column(name = "cantidad_equipo")
