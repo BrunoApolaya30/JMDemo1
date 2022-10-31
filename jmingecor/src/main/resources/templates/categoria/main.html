@@ -25,7 +25,15 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
                                         </form>
                                         <input type="text" id="search" name="id" placeholder="Buscar" class="text-start ps-2 mx-4 p-0 dash_search form-control-sm ">
                                         <a href="" id="agregarcategoria" class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#formModal" >
-                                            AGREGAR
+                                            
+                                            <i id="iconproveedor" class="fas fa-plus "></i>
+                                        </a>
+                                        <a th:href="@{/categoria/exportarPdf/}" id="agregarcategoria" class="btn btn-danger my-2"  >
+                                            PDF
+                                            <i id="iconproveedor" class="fas fa-plus "></i>
+                                        </a>
+                                        <a th:href="@{/categoria/exportarExcel/}" id="agregarcategoria" class="btn btn-success"  >
+                                            Excel
                                             <i id="iconproveedor" class="fas fa-plus "></i>
                                         </a>
                                     </div>

@@ -1,9 +1,15 @@
 package com.jmingecor.jmingecor.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jmingecor.jmingecor.model.entity.Categoria;
 import com.jmingecor.jmingecor.model.service.ICategoriaService;
+import com.jmingecor.jmingecor.util.report.CategoriaExporterEXCEL;
+import com.jmingecor.jmingecor.util.report.CategoriaExporterPDF;
+import com.lowagie.text.DocumentException;
 
 @Controller
 @RequestMapping("/categoria")
@@ -67,10 +76,48 @@ public class CategoriaController {
         return "redirect:/categoria/";
     }
     
-
     @RequestMapping(value="/form", method = RequestMethod.POST)
     public String store(Categoria categoria, Model model) {
         categoriaService.guardarCategoria(categoria);
         return "redirect:/categoria/";
     }
+
+    @RequestMapping("/exportarPdf")
+    public void exportarPDF(HttpServletResponse response) throws DocumentException, IOException {
+        //* Devuelve el tipo de contenido */
+        response.setContentType("application/pdf");
+
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Categorias_" + fechaActual + ".pdf";
+
+        response.setHeader(cabecera, valor);
+        List<Categoria> categorias = categoriaService.cargarCategoria();
+
+        CategoriaExporterPDF exporterPDF = new CategoriaExporterPDF(categorias);
+
+        exporterPDF.exportarPDF(response);
+
+    }
+
+    @RequestMapping("/exportarExcel")
+    public void exportarExcel(HttpServletResponse response) throws DocumentException, IOException {
+        //* Devuelve el tipo de contenido */
+        response.setContentType("application/octet-stream");
+
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Categorias_" + fechaActual + ".xlsx";
+
+        response.setHeader(cabecera, valor);
+        List<Categoria> categorias = categoriaService.cargarCategoria();
+
+        CategoriaExporterEXCEL exporterPDF = new CategoriaExporterEXCEL(categorias);
+
+        exporterPDF.exportarExcel(response);
+
+    }
+
 }
