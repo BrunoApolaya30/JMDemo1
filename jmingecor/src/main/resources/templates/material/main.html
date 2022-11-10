@@ -13,20 +13,28 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
                     th:if="${mensajeFinal != null}">
                     <span th:text="${mensajeFinal}"></span>
                 </div>
-                <div class="card w-75 mx-auto ">
+                <div class="card mx-auto ">
                     <div class="card-header text-dark py-4">
                         <div class="row justify-content-evenly align-items-center">
                             <div class="col-12 col-lg-6 text-center fw-600 fs-3">Materiales Actualmente</div>
                             <div class="col-12 col-lg-6 text-center">
                                 <div class="row py-3 justify-content-center">
                                     <div class="col-12">
-                                        <form th:action="@{/categoria/buscar/}" style="display: none;">
+                                        <form th:action="@{/equipo/buscar/}" style="display: none;">
                                             <button type="submit"  class="btn-sm btn-primary px-4 py-2"><i class="fas fa-search p-0 m-0"></i></button>
                                         </form>
-                                        <input type="text" id="search" name="id" placeholder="Buscar" class="text-start ps-2 mx-4 p-0 dash_search">
-                                        <a href="" id="agregarcategoria" class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#formModal" >
-                                            AGREGAR
-                                            <i id="iconproveedor" class="fas fa-plus "></i>
+                                        <input type="text" id="search" name="id" placeholder="Buscar" class="text-start ps-2 mx-4 p-0 dash_search form-control-sm ">
+                                        <a href="" id="agregarmaterial" class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#formModal" >
+                                            
+                                            <i id="iconmaterial" class="fas fa-plus "></i>
+                                        </a>
+                                        <a th:href="@{/material/exportarPdf/}"  class="btn btn-danger my-2"  >
+                                            PDF
+                                            <i class="fas fa-plus "></i>
+                                        </a>
+                                        <a th:href="@{/material/exportarExcel/}"  class="btn btn-success"  >
+                                            Excel
+                                            <i class="fas fa-plus "></i>
                                         </a>
                                     </div>
                                 </div>
@@ -50,7 +58,8 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
                                 <tr>
                                     <th class="px-3">ID</th>
                                     <th class="px-3">Nombre</th>
-                                    <th class="px-3">Descripción</th>
+                                    <th class="px-3">Categoria</th>
+                                    <th class="px-3">Precio</th>
                                     <th class="px-3"></th>
                                     <th class="px-3"></th>
                                     <th class="px-4"></th>
@@ -60,20 +69,25 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
                                 <tr th:each="item: ${list}">
                                     <td th:text="${item.id}"></td>
                                     <td th:text="${item.nombre}" th:data-nombre="${item.nombre}" ></td>
-                                    <td th:text="${item.descripcion}"></td>                               
+                                    <td th:text="${item.categoria.nombre}"></td>   
+                                     <td th:text="${item.precio}"></td> 
                                     <td>
                                         <a 
-                                         th:href="@{/categoria/editar/} + ${item.id}" 
-                                         id="editcategoria"
+                                         th:href="@{/material/editar/} + ${item.id}" 
+                                         id="editmaterial"
                                          th:data-id="${item.id}"
                                          th:data-name="${item.nombre}"
-                                         th:data-descripcion="${item.descripcion}"
+                                         th:data-lugar_compra_material="${item.lugar_compra_material}"
+                                         th:data-categoria="${item.categoria.id}"
+                                         th:data-precio="${item.precio}"
+                                         th:data-igv_material="${item.igv_material}"
+                                         th:data-precio_obra_material="${item.precio_obra_material}"
                                          class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#formModal"> 
                                          <i class="fas fa-edit" ></i> Editar</a>
                                     </td>
                                     <td>
                                         <a 
-                                        id="eliminarcategoria"
+                                        id="eliminarmaterial"
                                         th:data-id="${item.id}"
                                         data-bs-toggle="modal" data-bs-target="#formModal2"                                    
                                         class="btn btn-danger"> 
@@ -81,75 +95,19 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
                                     </td>
                                     <td>
                                         <a 
-                                        th:href="@{/categoria/ver/} + ${item.id}" 
-                                        id="vercategoria"
-                                        th:data-id="${item.id}"
-                                        th:data-name="${item.nombre}"
-                                        th:data-descripcion="${item.descripcion}"
+                                        th:href="@{/material/ver/} + ${item.id}" 
+                                        id="vermaterial"
+                                         th:data-id="${item.id}"
+                                         th:data-name="${item.nombre}"
+                                         th:data-lugar_compra_material="${item.lugar_compra_material}"
+                                         th:data-categoria="${item.categoria.id}"
+                                         th:data-precio="${item.precio}"
+                                         th:data-igv_material="${item.igv_material}"
+                                         th:data-precio_obra_material="${item.precio_obra_material}"
                                         class="btn btn-secondary px-2" data-bs-toggle="modal" data-bs-target="#formModal"> 
                                         <i class="fas fa-eye pe-1 "></i>Ver</a>
                                     </td>
-                                </tr>
-                                <tr>
-                                  <td>0001</td>
-                                  <td>Material1</td>
-                                  <td>Material Nuevo</td>
-                                  <td>
-                                        <a 
-                                         class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#formModal"> 
-                                         <i class="fas fa-edit" ></i> Editar</a>
-                                  </td>
-                                  <td>
-                                        <a 
-                                         class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#formModal"> 
-                                         <i class="fas fa-trash" ></i> Eliminar</a>
-                                  </td>
-                                  <td>
-                                        <a 
-                                         class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#formModal"> 
-                                         <i class="fas fa-eye" ></i> Detalle</a>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>0001</td>
-                                  <td>Material1</td>
-                                  <td>Material Nuevo</td>
-                                  <td>
-                                        <a 
-                                         class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#formModal"> 
-                                         <i class="fas fa-edit" ></i> Editar</a>
-                                  </td>
-                                  <td>
-                                        <a 
-                                         class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#formModal"> 
-                                         <i class="fas fa-trash" ></i> Eliminar</a>
-                                  </td>
-                                  <td>
-                                        <a 
-                                         class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#formModal"> 
-                                         <i class="fas fa-eye" ></i> Detalle</a>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>0001</td>
-                                  <td>Material1</td>
-                                  <td>Material Nuevo</td>
-                                  <td>
-                                        <a 
-                                         class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#formModal"> 
-                                         <i class="fas fa-edit" ></i> Editar</a>
-                                  </td>
-                                  <td>
-                                        <a 
-                                         class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#formModal"> 
-                                         <i class="fas fa-trash" ></i> Eliminar</a>
-                                  </td>
-                                  <td>
-                                        <a 
-                                         class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#formModal"> 
-                                         <i class="fas fa-eye" ></i> Detalle</a>
-                                  </td>
-                                </tr>
+                                </tr>                 
                             </tbody>
                         </table>
                     </div>
@@ -158,16 +116,16 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
                                 <nav aria-label="Pagination">
                                     <ul class="pagination justify-content-center">
                                         <li class="page-item" th:classappend="${prev == 0 ? 'disabled' : ''}">
-                                            <a class="page-link" th:href="@{|/categoria/?page=${prev}|}"><span
+                                            <a class="page-link" th:href="@{|/material/?page=${prev}|}"><span
                                                     aria-hidden="true">&laquo;</span></a>
                                         </li>
                                         <li class="page-item" th:each="page : ${pages}"
                                             th:classappend="${current == page ? 'active' : ''}">
-                                            <a class="page-link" th:href="@{|/categoria/?page=${page}|}"
+                                            <a class="page-link" th:href="@{|/material/?page=${page}|}"
                                                 th:text="${page}"></a>
                                         </li>
                                         <li class="page-item" th:classappend="${current == last ? 'disabled' : ''}">
-                                            <a class="page-link" th:href="@{|/categoria/?page=${next}|}"><span
+                                            <a class="page-link" th:href="@{|/material/?page=${next}|}"><span
                                                     aria-hidden="true">&raquo;</span></a>
                                         </li>
                                     </ul>
@@ -178,12 +136,13 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
         </div>
       </section>
     </section>
+
     <!-- //* Modal Agregar -->
     <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form  method="post" >
-                    <input id="id" type="hidden">
+                <form  method="post" th:action="@{/material/form}" th:object="${material}" >
+                    <input id="id" type="hidden" th:field="*{id}">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel" ></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -192,24 +151,89 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
                         <div class ="row">
                             <div class="col-12  mb-3">
                                 <label>Nombre</label>
-                                <input id="name" type="text" class="form-control" placeholder="Ingrese nombre"/>
+                                <input id="name" type="text" class="form-control" 
+                                th:field="*{nombre}"
+                                placeholder="Ingrese nombre"/>
+                            </div>
+                        </div>         
+                        <div class="row">
+                            <div class="col-12 col-sm-6  mb-3">
+                                <label>Categoria</label>
+                                <select
+                                    id="categoria"
+                                    class="form-select"
+                                    th:field="*{categoria.id}"
+                                    required
+                                >
+                                    <option value="">-- Seleccione Categoria</option>
+                                    <option
+                                    th:each="item: ${listaCategorias}"
+                                    th:value="${item.id}"
+                                    th:text="${item.nombre}"
+                                    ></option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-sm-6  mb-3">
+                                <label>Precio</label>
+                                <input id="precio" type="number" class="form-control" 
+                                th:field="*{precio}"
+                                placeholder="Ingrese el Precio"/>
                             </div>
                         </div>   
                         <div class="row">
                             <div class="col-12  mb-3">
-                                <label>Descripción</label>
-                                <input id="descripcion" type="text" class="form-control" placeholder="Ingrese la Descripción"/>
+                                <label>Lugar de Compra</label>
+                                <input id="lugar_compra_material" type="text" class="form-control" 
+                                th:field="*{lugar_compra_material}"
+                                placeholder="Ingrese el Lugar de Compra"/>
                             </div>
-                        </div>                             
+                        </div>  
+                        <div class="row">
+                            <div class="col-12  mb-3">
+                                <label>IGV</label>
+                                <input id="igv_material" type="number" class="form-control" 
+                                th:field="*{igv_material}"
+                                placeholder="Ingrese el Igv"/>
+                            </div>
+                        </div>   
+                        <div class="row">
+                            <div class="col-12  mb-3">
+                                <label>Precio de Obra</label>
+                                <input id="precio_obra_material" type="number" class="form-control" 
+                                th:field="*{precio_obra_material}"
+                                placeholder="Ingrese el Precio de Obra"/>
+                            </div>
+                        </div>   
                     </div>
                     <div class="modal-footer">
                         
-                        <button id="categorialimpiar" type="button"  class="btn btn-secondary text-black ">LIMPIAR</button>
+                        <button id="limpiarmaterial" type="button"  class="btn btn-secondary text-black ">LIMPIAR</button>
                         <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
                         <input type="submit" id="btn-guardar" class="btn btn-primary" value="GUARDAR">
                     </div>
                 </form> 
             </div>
+        </div>
+    </div>
+
+    <!-- //* Modal Eliminar -->
+    <div class="modal fade" id="formModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title fw-700 fs-4" id="exampleModalLabel" ><i class="fas fa-trash"></i> Borrar !</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <p class="text-dark fw-500">    
+                        Está Seguro de Eliminar este Registro ?
+                    </p>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
+                    <a id="deletematerial" type="submit" class="btn btn-danger">SI, estoy Seguro</a>
+            </div>
+        </div>
         </div>
     </div>
 

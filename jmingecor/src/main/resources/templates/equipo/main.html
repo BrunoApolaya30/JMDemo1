@@ -124,12 +124,12 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
                                 <nav aria-label="Pagination">
                                     <ul class="pagination justify-content-center">
                                         <li class="page-item" th:classappend="${prev == 0 ? 'disabled' : ''}">
-                                            <a class="page-link" th:href="@{|/categoria/?page=${prev}|}"><span
+                                            <a class="page-link" th:href="@{|/equipo/?page=${prev}|}"><span
                                                     aria-hidden="true">&laquo;</span></a>
                                         </li>
                                         <li class="page-item" th:each="page : ${pages}"
                                             th:classappend="${current == page ? 'active' : ''}">
-                                            <a class="page-link" th:href="@{|/categoria/?page=${page}|}"
+                                            <a class="page-link" th:href="@{|/equipo/?page=${page}|}"
                                                 th:text="${page}"></a>
                                         </li>
                                         <li class="page-item" th:classappend="${current == last ? 'disabled' : ''}">
@@ -171,63 +171,57 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
                                 th:field="*{descripcion}"
                                 placeholder="Ingrese la Descripción"/>
                             </div>
-                        </div>        
+                        </div>      
                         <div class="row">
-                            <div class="col-12  mb-3">
-                                <label>Categoria</label>
-                                <select
-                                    id="categoria"
-                                    class="form-select"
-                                    th:field="*{categoria.id}"
-                                    required
-                                >
-                                    <option value="">-- Seleccione Categoria</option>
-                                    <option
-                                    th:each="item: ${listaCategorias}"
-                                    th:value="${item.id}"
-                                    th:text="${item.nombre}"
-                                    ></option>
-                                </select>
-                            </div>
-                        </div>  
-                        <div class="row">
-                            <div class="col-12  mb-3">
+                                <div class="col-12 col-sm-6  mb-3">
+                                    <label>Categoria</label>
+                                    <select
+                                        id="categoria"
+                                        class="form-select"
+                                        th:field="*{categoria.id}"
+                                        required
+                                    >
+                                        <option value="">-- Seleccione Categoria</option>
+                                        <option
+                                        th:each="item: ${listaCategorias}"
+                                        th:value="${item.id}"
+                                        th:text="${item.nombre}"
+                                        ></option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-sm-6  mb-3">
                                 <label>Fecha</label>
                                 <input id="fecha" type="date" class="form-control" 
                                 th:field="*{fecha}"
                                 placeholder="Ingrese la Descripción"/>
-                            </div>
-                        </div>   
+                                </div>
+                        </div>                     
                         <div class="row">
-                            <div class="col-12  mb-3">
+                            <div class="col-12 col-sm-6  mb-3">
                                 <label>Cantidad</label>
                                 <input id="cantidad" type="number" class="form-control" 
                                 th:field="*{cantidad}"
                                 placeholder="Ingrese la Descripción"/>
                             </div>
-                        </div>   
-                        <div class="row">
-                            <div class="col-12  mb-3">
+                            <div class="col-12 col-sm-6  mb-3">
                                 <label>Peso</label>
                                 <input id="peso" type="number" class="form-control" 
                                 th:field="*{peso}"
                                 placeholder="Ingrese la Descripción"/>
                             </div>
-                        </div>   
+                        </div>    
                         <div class="row">
-                            <div class="col-12  mb-3">
+                            <div class="col-12 col-sm-6  mb-3">
                                 <label>Peso Total</label>
                                 <input id="pesototal" type="text" class="form-control" 
                                 th:field="*{peso_total}"
                                 placeholder="Ingrese la Descripción"/>
                             </div>
-                        </div>  
-                        <div class="row">
-                            <div class="col-12  mb-3">
+                            <div class="col-12 col-sm-6  mb-3">
                                 <label>Alquiler</label>
                                 <input id="alquiler" type="text" class="form-control" 
                                 th:field="*{alquiler}"
-                                placeholder="Ingrese el Precio del Alquiler"/>
+                                placeholder="Ingrese Precio de Alquiler"/>
                             </div>
                         </div>  
                         <div class="row">

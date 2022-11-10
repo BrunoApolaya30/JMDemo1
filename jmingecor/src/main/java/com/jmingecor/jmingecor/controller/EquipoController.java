@@ -110,7 +110,7 @@ public class EquipoController {
 
      }
     
-     @RequestMapping("/exportarExcel")
+    @RequestMapping("/exportarExcel")
     public void exportarExcel(HttpServletResponse response) throws DocumentException, IOException {
         //* Devuelve el tipo de contenido */
         response.setContentType("application/octet-stream");

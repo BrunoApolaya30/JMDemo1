@@ -13,6 +13,15 @@
       "pesototal",
       "alquiler",
       "observaciones",
+    ],
+    txtmaterial = [
+      "id",
+      "name",
+      "categoria",
+      "precio",
+      "lugar_compra_material",
+      "igv_material",
+      "precio_obra_material",
     ];
 
   const $editcategoria = d.querySelectorAll("#editcategoria"),
@@ -25,8 +34,13 @@
     $eliminarequipo = d.querySelectorAll("#eliminarequipo"),
     $deleteequipo = d.getElementById("deleteequipo"),
     $limpiarequipo = d.getElementById("limpiarequipo"),
-    $buscar = d.getElementById("search"),
-    $select = d.getElementById("select");
+    $editmaterial = d.querySelectorAll("#editmaterial"),
+    $vermaterial = d.querySelectorAll("#vermaterial"),
+    $eliminarmaterial = d.querySelectorAll("#eliminarmaterial"),
+    $deletematerial = d.getElementById("deletematerial"),
+    $limpiarmaterial = d.getElementById("limpiarmaterial");
+  ($buscar = d.getElementById("search")),
+    ($select = d.getElementById("select"));
   if ($limpiarcategoria) {
     $limpiarcategoria.addEventListener("click", (e) => {
       txtcategoria.forEach((ele) => {
@@ -89,7 +103,7 @@
         d.getElementById(ele).value = eval(`el.dataset.${ele}`);
         d.getElementById(ele).disabled = true;
       });
-      d.getElementById("exampleModalLabel").textContent = "VER Equipo";
+      d.getElementById("exampleModalLabel").textContent = "Ver Equipo";
       d.getElementById("btn-guardar").style = "display : none";
       $limpiarequipo.style = "display : none";
     });
@@ -97,6 +111,44 @@
   $eliminarequipo.forEach((el) => {
     el.addEventListener("click", (e) => {
       $deleteequipo.dataset.id = el.dataset.id;
+    });
+  });
+
+  //*Material
+
+  if ($limpiarmaterial) {
+    $limpiarmaterial.addEventListener("click", (e) => {
+      txtmaterial.forEach((ele) => {
+        d.getElementById(ele).value = "";
+      });
+    });
+  }
+
+  $editmaterial.forEach((el) => {
+    el.addEventListener("click", () => {
+      txtmaterial.forEach((ele) => {
+        d.getElementById(ele).value = eval(`el.dataset.${ele}`);
+        d.getElementById(ele).disabled = false;
+      });
+      d.getElementById("btn-guardar").style = "display : block";
+      $limpiarmaterial.style = "display:block";
+    });
+  });
+
+  $vermaterial.forEach((el) => {
+    el.addEventListener("click", () => {
+      txtmaterial.forEach((ele) => {
+        d.getElementById(ele).value = eval(`el.dataset.${ele}`);
+        d.getElementById(ele).disabled = true;
+      });
+      d.getElementById("exampleModalLabel").textContent = "VER MATERIAL";
+      d.getElementById("btn-guardar").style = "display : none";
+      $limpiarmaterial.style = "display : none";
+    });
+  });
+  $eliminarmaterial.forEach((el) => {
+    el.addEventListener("click", (e) => {
+      $deletematerial.dataset.id = el.dataset.id;
     });
   });
 
@@ -129,12 +181,26 @@
       d.getElementById("btn-guardar").style = "display : block";
       $limpiarequipo.style = "display:block";
     }
+    if (
+      e.target.matches("#agregarmaterial") ||
+      e.target.matches("#iconmaterial")
+    ) {
+      txtmaterial.forEach((el) => {
+        d.getElementById(el).value = "";
+        d.getElementById(el).disabled = false;
+      });
+      d.getElementById("btn-guardar").style = "display : block";
+      $limpiarmaterial.style = "display:block";
+    }
     // Eliminación
     if (e.target.matches("#deletecategoria")) {
       window.location.href = `/categoria/eliminar/${e.target.dataset.id}`;
     }
     if (e.target.matches("#deleteequipo")) {
       window.location.href = `/equipo/eliminar/${e.target.dataset.id}`;
+    }
+    if (e.target.matches("#deletematerial")) {
+      window.location.href = `/material/eliminar/${e.target.dataset.id}`;
     }
   });
   // * Buscar
