@@ -7,6 +7,207 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
     <aside th:replace="layout/fragmentos :: aside"></aside>
     <section class="full-width pageContent">
         <div class="full-width navBar" th:replace="layout/fragmentos :: navbar" ></div>
+        <section class="section">
+        <div class="container-fluid py-4">
+                <div class="alert alert-info w-75 text-center mx-auto my-0" role="alert"
+                    th:if="${mensajeFinal != null}">
+                    <span th:text="${mensajeFinal}"></span>
+                </div>
+                <div class="card mx-auto ">
+                    <div class="card-header text-dark py-4">
+                        <div class="row justify-content-evenly align-items-center">
+                            <div class="col-12 col-lg-6 text-center fw-600 fs-3">Jornales Actualmente</div>
+                            <div class="col-12 col-lg-6 text-center">
+                                <div class="row py-3 justify-content-center">
+                                    <div class="col-12">
+                                        <form th:action="@{/joranles/buscar/}" style="display: none;">
+                                            <button type="submit"  class="btn-sm btn-primary px-4 py-2"><i class="fas fa-search p-0 m-0"></i></button>
+                                        </form>
+                                        <input type="text" id="search" name="id" placeholder="Buscar" class="text-start ps-2 mx-4 p-0 dash_search form-control-sm ">
+                                        <a href="" id="agregarjornales" class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#formModal" >
+                                            
+                                            <i id="iconjornales" class="fas fa-plus "></i>
+                                        </a>
+                                        <a th:href="@{/jornales/exportarPdf/}"  class="btn btn-danger my-2"  >
+                                            PDF
+                                            <i class="fas fa-plus "></i>
+                                        </a>
+                                        <a th:href="@{/jornales/exportarExcel/}"  class="btn btn-success"  >
+                                            Excel
+                                            <i class="fas fa-plus "></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive ">
+                        <div class="row pb-3">
+                            <div class="col-12">
+                                <p class="d-inline">Mostrar</p>
+                                <select id="select" name="select">
+                                    <option value="5" th:selected=" ${numPage ==  5 } ?  true : false">5</option>
+                                    <option value="10" th:selected=" ${numPage == 10 } ?  true : false">10</option>
+                                    <option value="15" th:selected=" ${numPage == 15 } ?  true : false">15</option>
+                                </select>
+                                <p class="d-inline">Registros</p>
+                            </div>
+                        </div>
+                        <table class="table table-hover table-bordered text-center ">
+                            <thead>
+                                <tr>
+                                    <th class="px-3">ID</th>
+                                    <th class="px-3">Unidad</th>
+                                    <th class="px-3">Costo Jornal</th>
+                                    <th class="px-3">Categoria</th>
+                                    <th class="px-3"></th>
+                                    <th class="px-3"></th>
+                                    <th class="px-4"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item: ${list}">
+                                    <td th:text="${item.id}"></td>
+                                    <td th:text="${item.unidad}" th:data-nombre="${item.unidad}" ></td>
+                                    <td th:text="${item.costo}"></td>  
+                                    <td th:text="${item.categoria.nombre}"></td>                              
+                                    <td>
+                                        <a 
+                                         th:href="@{/jornales/editar/} + ${item.id}" 
+                                         id="editjornales"
+                                         th:data-id="${item.id}"
+                                         th:data-unidad="${item.unidad}"
+                                         th:data-costo="${item.costo}"
+                                         th:data-categoria="${item.categoria.id}"
+                                         class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#formModal"> 
+                                         <i class="fas fa-edit" ></i> Editar</a>
+                                    </td>
+                                    <td>
+                                        <a 
+                                        id="eliminarjornales"
+                                        th:data-id="${item.id}"
+                                        data-bs-toggle="modal" data-bs-target="#formModal2"                                    
+                                        class="btn btn-danger"> 
+                                        <i class="fas fa-trash pe-1"></i>Eliminar</a>
+                                    </td>
+                                    <td>
+                                        <a 
+                                        th:href="@{/jornales/ver/} + ${item.id}" 
+                                        id="verjornales"
+                                         th:data-id="${item.id}"
+                                         th:data-unidad="${item.unidad}"
+                                         th:data-costo="${item.costo}"
+                                         th:data-categoria="${item.categoria.id}"
+                                        class="btn btn-secondary px-2" data-bs-toggle="modal" data-bs-target="#formModal"> 
+                                        <i class="fas fa-eye pe-1 "></i>Ver</a>
+                                    </td>
+                                </tr>                 
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                            <div class="col-12">
+                                <nav aria-label="Pagination">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item" th:classappend="${prev == 0 ? 'disabled' : ''}">
+                                            <a class="page-link" th:href="@{|/equipo/?page=${prev}|}"><span
+                                                    aria-hidden="true">&laquo;</span></a>
+                                        </li>
+                                        <li class="page-item" th:each="page : ${pages}"
+                                            th:classappend="${current == page ? 'active' : ''}">
+                                            <a class="page-link" th:href="@{|/equipo/?page=${page}|}"
+                                                th:text="${page}"></a>
+                                        </li>
+                                        <li class="page-item" th:classappend="${current == last ? 'disabled' : ''}">
+                                            <a class="page-link" th:href="@{|/categoria/?page=${next}|}"><span
+                                                    aria-hidden="true">&raquo;</span></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                    </div>
+                </div>                       
+        </div>
+        </section>
     </section>
+
+    <!-- //* Modal Agregar -->
+    <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form  method="post" th:action="@{/jornales/form}" th:object="${jornales}" >
+                    <input id="id" type="hidden" th:field="*{id}">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" ></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class ="row">
+                            <div class="col-12  mb-3">
+                                <label>Unidad Jornal</label>
+                                <input id="unidad" type="text" class="form-control" 
+                                th:field="*{unidad}"
+                                placeholder="Ingrese Unidad Jornal"/>
+                            </div>
+                        </div>   
+                        <div class="row">
+                            <div class="col-12  mb-3">
+                                <label>Costo Jornal</label>
+                                <input id="costo" type="number" class="form-control" 
+                                th:field="*{costo}"
+                                placeholder="Ingrese el Costo Jornal"/>
+                            </div>
+                        </div>      
+                        <div class="row">
+                                <div class="col-12 col-sm-6  mb-3">
+                                    <label>Categoria</label>
+                                    <select
+                                        id="categoria"
+                                        class="form-select"
+                                        th:field="*{categoria.id}"
+                                        required
+                                    >
+                                        <option value="">-- Seleccione Categoria</option>
+                                        <option
+                                        th:each="item: ${listaCategorias}"
+                                        th:value="${item.id}"
+                                        th:text="${item.nombre}"
+                                        ></option>
+                                    </select>
+                                </div>
+                        </div>                     
+                    </div>
+                    <div class="modal-footer">
+                        
+                        <button id="limpiarjornales" type="button"  class="btn btn-secondary text-black ">LIMPIAR</button>
+                        <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
+                        <input type="submit" id="btn-guardar" class="btn btn-primary" value="GUARDAR">
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div>
+
+    <!-- //* Modal Eliminar -->
+    <div class="modal fade" id="formModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title fw-700 fs-4" id="exampleModalLabel" ><i class="fas fa-trash"></i> Borrar !</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <p class="text-dark fw-500">    
+                        Está Seguro de Eliminar este Registro ?
+                    </p>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
+                    <a id="deletejornales" type="submit" class="btn btn-danger">SI, estoy Seguro</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div th:replace="layout/fragmentos :: extra"></div>
   </body>
 </html>

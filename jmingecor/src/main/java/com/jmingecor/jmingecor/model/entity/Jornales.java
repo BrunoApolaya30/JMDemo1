@@ -18,7 +18,37 @@ public class Jornales implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_jornal")
-    private Long id_jornal;
+    private Long id;
+
+    @Column(name = "unidad_jornal")
+    private String unidad;
+
+    @Column(name = "costo_jornal")
+    private double costo;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUnidad() {
+        return unidad;
+    }
+
+    public void setUnidad(String unidad) {
+        this.unidad = unidad;
+    }
+
+    public double getCosto() {
+        return costo;
+    }
+
+    public void setCosto(double costo) {
+        this.costo = costo;
+    }
 
     @ManyToOne
     @JoinColumn(name = "id_categoria")
@@ -31,11 +61,5 @@ public class Jornales implements Serializable{
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
-
-    @Column(name = "unidad_jornal")
-    private String unidad_jornal;
-
-    @Column(name = "costo_jornal")
-    private double costo_jornal;
-
+    
 }

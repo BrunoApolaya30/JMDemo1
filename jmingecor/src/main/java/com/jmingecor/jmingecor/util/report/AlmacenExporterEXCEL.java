@@ -13,19 +13,19 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.jmingecor.jmingecor.model.entity.Material;
+import com.jmingecor.jmingecor.model.entity.Almacen;
 
-public class MaterialExporterEXCEL {
 
-    private XSSFWorkbook libro;
+public class AlmacenExporterEXCEL {
+     private XSSFWorkbook libro;
     private XSSFSheet hoja;
 
-    private List<Material> listaMateriales;
+    private List<Almacen> listaAlmacenes;
 
-    public MaterialExporterEXCEL(List<Material> listaMateriales) {
-        this.listaMateriales = listaMateriales;
+    public AlmacenExporterEXCEL(List<Almacen> listaAlmacenes) {
+        this.listaAlmacenes = listaAlmacenes;
         libro = new XSSFWorkbook();
-        hoja = libro.createSheet("Materiales");
+        hoja = libro.createSheet("Almacenes");
     }
 
     private void escribirCabeceraTabla() {
@@ -42,27 +42,11 @@ public class MaterialExporterEXCEL {
         celda.setCellStyle(estilo);
 
         celda = fila.createCell(1);
-        celda.setCellValue("Nombre");
+        celda.setCellValue("Ubicación");
         celda.setCellStyle(estilo);
 
         celda = fila.createCell(2);
-        celda.setCellValue("Categoria");
-        celda.setCellStyle(estilo);
-
-         celda = fila.createCell(3);
-        celda.setCellValue("Precio");
-        celda.setCellStyle(estilo);
-
-        celda = fila.createCell(4);
-        celda.setCellValue("Lugar De Compra");
-        celda.setCellStyle(estilo);
-
-         celda = fila.createCell(5);
-        celda.setCellValue("Precio de Obra");
-        celda.setCellStyle(estilo);
-
-        celda = fila.createCell(6);
-        celda.setCellValue("IGV");
+        celda.setCellValue("Descripción");
         celda.setCellStyle(estilo);
 
     }
@@ -74,43 +58,22 @@ public class MaterialExporterEXCEL {
         fuente.setFontHeight(14);
         estilo.setFont(fuente);
 
-        for (Material material : listaMateriales) {
+        for (Almacen almacen : listaAlmacenes) {
             Row fila = hoja.createRow(numeroFilas++);
 
             Cell celda = fila.createCell(0);
-            celda.setCellValue(material.getId());
+            celda.setCellValue(almacen.getId());
             hoja.autoSizeColumn(0);
             celda.setCellStyle(estilo);
 
             celda = fila.createCell(1);
-            celda.setCellValue(material.getNombre());
+            celda.setCellValue(almacen.getUbicacion());
             hoja.autoSizeColumn(1);
             celda.setCellStyle(estilo);
 
-             celda = fila.createCell(2);
-            celda.setCellValue(material.getCategoria().getNombre());
+            celda = fila.createCell(2);
+            celda.setCellValue(almacen.getDescripcion());
             hoja.autoSizeColumn(2);
-            celda.setCellStyle(estilo);
-
-            celda = fila.createCell(3);
-            celda.setCellValue(material.getPrecio());
-            hoja.autoSizeColumn(3);
-            celda.setCellStyle(estilo);
-
-             celda = fila.createCell(4);
-            celda.setCellValue(material.getLugar_compra_material());
-            hoja.autoSizeColumn(4);
-            celda.setCellStyle(estilo);
-
-            
-             celda = fila.createCell(5);
-            celda.setCellValue(material.getPrecio_obra_material());
-            hoja.autoSizeColumn(5);
-            celda.setCellStyle(estilo);
-
-             celda = fila.createCell(6);
-            celda.setCellValue(material.getIgv_material());
-            hoja.autoSizeColumn(6);
             celda.setCellStyle(estilo);
         }
     }
@@ -130,5 +93,5 @@ public class MaterialExporterEXCEL {
         
     }
     
-    
+
 }

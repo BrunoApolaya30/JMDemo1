@@ -22,8 +22,9 @@
       "lugar_compra_material",
       "igv_material",
       "precio_obra_material",
-    ];
-
+    ],
+    txtjornales = ["id", "unidad", "costo", "categoria"],
+    txtalmacen = ["id", "ubicacion", "descripcion"];
   const $editcategoria = d.querySelectorAll("#editcategoria"),
     $vercategoria = d.querySelectorAll("#vercategoria"),
     $eliminarcategoria = d.querySelectorAll("#eliminarcategoria"),
@@ -38,7 +39,17 @@
     $vermaterial = d.querySelectorAll("#vermaterial"),
     $eliminarmaterial = d.querySelectorAll("#eliminarmaterial"),
     $deletematerial = d.getElementById("deletematerial"),
-    $limpiarmaterial = d.getElementById("limpiarmaterial");
+    $limpiarmaterial = d.getElementById("limpiarmaterial"),
+    $editjornales = d.querySelectorAll("#editjornales"),
+    $verjornales = d.querySelectorAll("#verjornales"),
+    $eliminarjornales = d.querySelectorAll("#eliminarjornales"),
+    $deletejornales = d.getElementById("deletejornales"),
+    $limpiarjornales = d.getElementById("limpiarjornales"),
+    $editalmacen = d.querySelectorAll("#editalmacen"),
+    $veralmacen = d.querySelectorAll("#veralmacen"),
+    $eliminaralmacen = d.querySelectorAll("#eliminaralmacen"),
+    $deletealmacen = d.getElementById("deletealmacen"),
+    $limpiaralmacen = d.getElementById("limpiaralmacen");
   ($buscar = d.getElementById("search")),
     ($select = d.getElementById("select"));
   if ($limpiarcategoria) {
@@ -152,6 +163,82 @@
     });
   });
 
+  //*Jornales
+
+  if ($limpiarjornales) {
+    $limpiarjornales.addEventListener("click", (e) => {
+      txtjornales.forEach((ele) => {
+        d.getElementById(ele).value = "";
+      });
+    });
+  }
+
+  $editjornales.forEach((el) => {
+    el.addEventListener("click", () => {
+      txtjornales.forEach((ele) => {
+        d.getElementById(ele).value = eval(`el.dataset.${ele}`);
+        d.getElementById(ele).disabled = false;
+      });
+      d.getElementById("btn-guardar").style = "display : block";
+      $limpiarjornales.style = "display:block";
+    });
+  });
+
+  $verjornales.forEach((el) => {
+    el.addEventListener("click", () => {
+      txtjornales.forEach((ele) => {
+        d.getElementById(ele).value = eval(`el.dataset.${ele}`);
+        d.getElementById(ele).disabled = true;
+      });
+      d.getElementById("exampleModalLabel").textContent = "Ver Jornales";
+      d.getElementById("btn-guardar").style = "display : none";
+      $limpiarjornales.style = "display : none";
+    });
+  });
+  $eliminarjornales.forEach((el) => {
+    el.addEventListener("click", (e) => {
+      $deletejornales.dataset.id = el.dataset.id;
+    });
+  });
+
+  //*Almacen
+
+  if ($limpiaralmacen) {
+    $limpiaralmacen.addEventListener("click", (e) => {
+      txtalmacen.forEach((ele) => {
+        d.getElementById(ele).value = "";
+      });
+    });
+  }
+
+  $editalmacen.forEach((el) => {
+    el.addEventListener("click", () => {
+      txtalmacen.forEach((ele) => {
+        d.getElementById(ele).value = eval(`el.dataset.${ele}`);
+        d.getElementById(ele).disabled = false;
+      });
+      d.getElementById("btn-guardar").style = "display : block";
+      $limpiaralmacen.style = "display:block";
+    });
+  });
+
+  $veralmacen.forEach((el) => {
+    el.addEventListener("click", () => {
+      txtalmacen.forEach((ele) => {
+        d.getElementById(ele).value = eval(`el.dataset.${ele}`);
+        d.getElementById(ele).disabled = true;
+      });
+      d.getElementById("exampleModalLabel").textContent = "Ver Almacenes";
+      d.getElementById("btn-guardar").style = "display : none";
+      $limpiaralmacen.style = "display : none";
+    });
+  });
+  $eliminaralmacen.forEach((el) => {
+    el.addEventListener("click", (e) => {
+      $deletealmacen.dataset.id = el.dataset.id;
+    });
+  });
+
   // **Enviar Registros Paginación
   $select.addEventListener("change", (e) => {
     let a = window.location.href;
@@ -192,6 +279,31 @@
       d.getElementById("btn-guardar").style = "display : block";
       $limpiarmaterial.style = "display:block";
     }
+
+    if (
+      e.target.matches("#agregarjornales") ||
+      e.target.matches("#iconjornales")
+    ) {
+      txtjornales.forEach((el) => {
+        d.getElementById(el).value = "";
+        d.getElementById(el).disabled = false;
+      });
+      d.getElementById("btn-guardar").style = "display : block";
+      $limpiarjornales.style = "display:block";
+    }
+
+    if (
+      e.target.matches("#agregaralmacen") ||
+      e.target.matches("#iconalmacen")
+    ) {
+      txtalmacen.forEach((el) => {
+        d.getElementById(el).value = "";
+        d.getElementById(el).disabled = false;
+      });
+      d.getElementById("btn-guardar").style = "display : block";
+      $limpiaralmacen.style = "display:block";
+    }
+
     // Eliminación
     if (e.target.matches("#deletecategoria")) {
       window.location.href = `/categoria/eliminar/${e.target.dataset.id}`;
@@ -201,6 +313,12 @@
     }
     if (e.target.matches("#deletematerial")) {
       window.location.href = `/material/eliminar/${e.target.dataset.id}`;
+    }
+    if (e.target.matches("#deletejornales")) {
+      window.location.href = `/jornales/eliminar/${e.target.dataset.id}`;
+    }
+    if (e.target.matches("#deletealmacen")) {
+      window.location.href = `/almacen/eliminar/${e.target.dataset.id}`;
     }
   });
   // * Buscar
