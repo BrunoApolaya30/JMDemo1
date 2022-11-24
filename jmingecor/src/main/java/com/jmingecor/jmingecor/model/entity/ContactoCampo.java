@@ -27,4 +27,46 @@ public class ContactoCampo {
 
     @Column(name = "correo")
     private String correo;
+
+    public Long getId_contacto_campo() {
+        return id_contacto_campo;
+    }
+
+    public void setId_contacto_campo(Long id_contacto_campo) {
+        this.id_contacto_campo = id_contacto_campo;
+    }
+
+    public String getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(String empresa) {
+        this.empresa = empresa;
+    }
+
+    public String getCargo_empresa() {
+        return cargo_empresa;
+    }
+
+    public void setCargo_empresa(String cargo_empresa) {
+        this.cargo_empresa = cargo_empresa;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+
 }
