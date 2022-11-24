@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=http://www.thymeleaf.org
+xmlns:sec=http://www.thymeleaf.org/extras/spring-security
+xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
+  <head th:replace="layout/fragmentos :: head">
+  <body>
+        <aside th:replace="layout/fragmentos :: aside"></aside>
+         <section class="full-width pageContent">
+        <div class="full-width navBar" th:replace="layout/fragmentos :: navbar" ></div>
+        <section class="section">
+            <div class="container-fluid py-4">
+                <div class="alert alert-info w-75 text-center mx-auto my-0" role="alert"
+                    th:if="${mensajeFinal != null}">
+                    <span th:text="${mensajeFinal}"></span>
+                </div>
+                <div class="card mx-auto ">
+                    <div class="card-header text-dark py-4">
+                        <div class="row justify-content-evenly align-items-center">
+                            <div class="col-12 col-lg-6 text-center fw-600 fs-3">Cotizacion Actualmente</div>
+                            <div class="col-12 col-lg-6 text-center">
+                                <div class="row py-3 justify-content-center">
+                                    <div class="col-12">
+                                        <form th:action="@{/cotizacion/buscar/}" style="display: none;">
+                                            <button type="submit"  class="btn-sm btn-primary px-4 py-2"><i class="fas fa-search p-0 m-0"></i></button>
+                                        </form>
+                                        <input type="text" id="search" name="id" placeholder="Buscar" class="text-start ps-2 mx-4 p-0 dash_search form-control-sm ">
+                                        <a href="" id="agregarcotizacion" class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#formModal" >                                            
+                                            <i id="iconcotizacion" class="fas fa-plus "></i>
+                                        </a>
+                                        <a th:href="@{/cotizacion/exportarPdf/}" id="agregarcategoria" class="btn btn-danger my-2"  >
+                                            PDF
+                                            <i class="fas fa-plus "></i>
+                                        </a>
+                                        <a th:href="@{/cotizacion/exportarExcel/}" id="agregarcategoria" class="btn btn-success"  >
+                                            Excel
+                                            <i class="fas fa-plus "></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive ">
+                        <div class="row pb-3">
+                            <div class="col-12">
+                                <p class="d-inline">Mostrar</p>
+                                <select id="select" name="select">
+                                    <option value="5" th:selected=" ${numPage ==  5 } ?  true : false">5</option>
+                                    <option value="10" th:selected=" ${numPage == 10 } ?  true : false">10</option>
+                                    <option value="15" th:selected=" ${numPage == 15 } ?  true : false">15</option>
+                                </select>
+                                <p class="d-inline">Registros</p>
+                            </div>
+                        </div>
+                        <table class="table table-hover table-bordered text-center ">
+                            <thead>
+                                <tr>
+                                    <th class="px-3">ID</th>
+                                    <th class="px-3">Fecha</th>
+                                    <th class="px-3">Cliente</th>
+                                    <th class="px-3">Obra</th>
+                                    <th class="px-3">Revision</th>
+                                    <th class="px-3">Costo directo</th>                                                                    
+                                    <th class="px-3">Total</th>                                                                    
+                                    <th class="px-3"></th>
+                                    <th class="px-3"></th>
+                                    <th class="px-3"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item: ${list}">
+                                    <td th:text="${item.id}"></td>
+                                    <td th:text="${item.fecha}"></td>
+                                    <td th:text="${item.cliente.nombre_rz}"></td>  
+                                    <td th:text="${item.obraCo}"></td>
+                                    <td th:text="${item.revisionCo}"></td>
+                                    <td th:text="${item.costoDirecto}"></td>
+                                    <td th:text="${item.totalCo}"></td>
+                                    <td>
+                                        <a 
+                                         th:href="@{/cotizacion/editar/} + ${item.id}" 
+                                         id="editcotizacion"
+                                         th:data-id="${item.id}"
+                                         th:data-fecha="${item.fecha}"
+                                         th:data-cliente="${item.cliente.id}"
+                                         th:data-obra="${item.obraCo}"
+                                         th:data-revision="${item.revisionCo}"
+                                         th:data-costoDir="${item.costoDirecto}"
+                                         th:data-gastosGen="${item.gastosGenerales}"
+                                         th:data-utilidad="${item.utilidadCo}"                                                                                 
+                                         th:data-total="${item.totalCo}" 
+                                         class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#formModal"> 
+                                         <i class="fas fa-edit" ></i> Editar</a>
+                                    </td>
+                                    <td>
+                                        <a 
+                                        id="eliminarcotizacion"
+                                        th:data-id="${item.id}"
+                                        data-bs-toggle="modal" data-bs-target="#formModal2"                                    
+                                        class="btn btn-danger"> 
+                                        <i class="fas fa-trash pe-1"></i>Eliminar</a>
+                                    </td>
+                                    <td>
+                                        <a 
+                                        th:href="@{/servcotizacion/} + ${item.id}"                                         
+                                        class="btn btn-secondary px-2"> 
+                                        <i class="fas fa-eye pe-1 "></i>Detalles</a>
+                                    </td>
+                                </tr>                 
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <nav aria-label="Pagination">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item" th:classappend="${prev == 0 ? 'disabled' : ''}">
+                                        <a class="page-link" th:href="@{|/cotizacion/?page=${prev}|}"><span
+                                                aria-hidden="true">&laquo;</span></a>
+                                    </li>
+                                    <li class="page-item" th:each="page : ${pages}"
+                                        th:classappend="${current == page ? 'active' : ''}">
+                                        <a class="page-link" th:href="@{|/cotizacion/?page=${page}|}"
+                                            th:text="${page}"></a>
+                                    </li>
+                                    <li class="page-item" th:classappend="${current == last ? 'disabled' : ''}">
+                                        <a class="page-link" th:href="@{|/cotizacion/?page=${next}|}"><span
+                                                aria-hidden="true">&raquo;</span></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>                       
+            </div>
+        </section>
+    </section>
+
+    <!-- //* Modal Agregar cotizacion-->
+    <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form  method="post" th:action="@{/cotizacion/form}" th:object="${cotizacion}" >
+                    <input id="id" type="hidden" th:field="*{id}">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" ></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class ="row">
+                            <div class="col-12  mb-3">
+                                <label>Obra</label>
+                                <input id="obra" type="text" class="form-control" 
+                                th:field="*{obraCo}"
+                                placeholder="Ingrese nombre de la obra"/>
+                            </div>
+                        </div>   
+                        <div class="row">
+                            <div class="col-12  mb-3">
+                                <label>Revision</label>
+                                <input id="revision" type="text" class="form-control" 
+                                th:field="*{revisionCo}"
+                                placeholder="Ingrese numero de revision"/>
+                            </div>
+                        </div>      
+                        <div class="row">
+                                <div class="col-12 col-sm-6  mb-3">
+                                    <label>Cliente</label>
+                                    <select
+                                        id="cliente"
+                                        class="form-select"
+                                        th:field="*{cliente.id}"
+                                        required
+                                    >
+                                        <option value="">-- Seleccione Cliente</option>
+                                        <option
+                                        th:each="item: ${listaClientes}"
+                                        th:value="${item.id}"
+                                        th:text="${item.nombre_rz}"
+                                        ></option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-sm-6  mb-3">
+                                <label>Fecha</label>
+                                <input id="fecha" type="date" class="form-control" 
+                                th:field="*{fecha}"
+                                placeholder="Ingrese la fecha"/>
+                                </div>
+                        </div>                     
+                        <div class="row">
+                            <div class="col-12 col-sm-6  mb-3">
+                                <label>Costo directo</label>
+                                <input id="costoDir" type="number" class="form-control" 
+                                th:field="*{costoDirecto}"
+                                placeholder="Ingrese el costo directo"/>
+                            </div>
+                            <div class="col-12 col-sm-6  mb-3">
+                                <label>Gastos generales</label>
+                                <input id="gastosGen" type="number" class="form-control" 
+                                th:field="*{gastosGenerales}"
+                                placeholder="Ingrese los gastos generales"/>
+                            </div>
+                        </div>                        
+                        <div class="row">
+                            <div class="col-12 col-sm-6  mb-3">
+                                <label>Utilidad</label>
+                                <input id="utilidad" type="number" class="form-control" 
+                                th:field="*{utilidadCo}"
+                                placeholder="Ingrese la utilidad"/>
+                            </div>
+                            <div class="col-12 col-sm-6  mb-3">
+                                <label>Costo total</label>
+                                <input id="total" type="number" class="form-control" 
+                                th:field="*{totalCo}"
+                                placeholder="Ingrese el costo total"/>
+                            </div>
+                        </div>  
+                    </div>
+                    <div class="modal-footer">
+                        
+                        <button id="limpiarcotizacion" type="button"  class="btn btn-secondary text-black ">LIMPIAR</button>
+                        <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
+                        <input type="submit" id="btn-guardar" class="btn btn-primary" value="GUARDAR">
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div>
+
+    <!-- //* Modal Eliminar -->
+    <div class="modal fade" id="formModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title fw-700 fs-4" id="exampleModalLabel" ><i class="fas fa-trash"></i> Borrar !</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <p class="text-dark fw-500">    
+                        Está Seguro de Eliminar este Registro ?
+                    </p>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
+                    <a id="deletecotizacion" type="submit" class="btn btn-danger">SI, estoy Seguro</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div th:replace="layout/fragmentos :: extra"></div>
+  </body>
+</html>
