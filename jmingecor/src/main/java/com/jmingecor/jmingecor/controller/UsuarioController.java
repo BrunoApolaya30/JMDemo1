@@ -1,9 +1,15 @@
 package com.jmingecor.jmingecor.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,7 +22,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jmingecor.jmingecor.model.entity.Usuario;
+import com.jmingecor.jmingecor.model.service.ICargoService;
 import com.jmingecor.jmingecor.model.service.IUsuarioService;
+import com.jmingecor.jmingecor.util.report.UsuariosExporterEXCEL;
+import com.jmingecor.jmingecor.util.report.UsuariosExporterPDF;
+import com.lowagie.text.DocumentException;
 
 @Controller
 @RequestMapping("/usuario")
@@ -24,6 +34,10 @@ public class UsuarioController {
 
     @Autowired
     private IUsuarioService usuarioService;
+
+    @Autowired
+    private ICargoService cargoService;
+
 
     @RequestMapping("/")
     public String index(Model model, @RequestParam Map<String, Object> params) {
@@ -44,6 +58,9 @@ public class UsuarioController {
         Usuario objUsuario = new Usuario();
         model.addAttribute("usuario", objUsuario);
         model.addAttribute("listaUsuarios", usuarioService.cargarUsuarios());
+
+        model.addAttribute("listaCargos", cargoService.cargarCargo());
+
         model.addAttribute("list", pageUsuarios.getContent());
         model.addAttribute("current",page+1);
         model.addAttribute("next", page+2);
@@ -74,41 +91,41 @@ public class UsuarioController {
         return "redirect:/usuario/";
     }
 
-    //@RequestMapping("/exportarPdf")
-    /*public void exportarPDF(HttpServletResponse response) throws DocumentException, IOException {
-        //* Devuelve el tipo de contenido */
-        /*response.setContentType("application/pdf");
+         @RequestMapping("/exportarPdf")
+     public void exportarPDF(HttpServletResponse response) throws DocumentException, IOException {
+         //* Devuelve el tipo de contenido */
+         response.setContentType("application/pdf");
 
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-        String fechaActual = dateFormatter.format(new Date());
-        String cabecera = "Content-Disposition";
-        String valor = "attachment; filename=Categorias_" + fechaActual + ".pdf";
+         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+         String fechaActual = dateFormatter.format(new Date());
+         String cabecera = "Content-Disposition";
+         String valor = "attachment; filename=Usuarios_" + fechaActual + ".pdf";
 
-        response.setHeader(cabecera, valor);
-        List<Categoria> categorias = categoriaService.cargarCategoria();
+         response.setHeader(cabecera, valor);
+         List<Usuario> usuarios = usuarioService.cargarUsuarios();
 
-        CategoriaExporterPDF exporterPDF = new CategoriaExporterPDF(categorias);
+         UsuariosExporterPDF exporterPDF = new UsuariosExporterPDF(usuarios);
 
-        exporterPDF.exportarPDF(response);
+         exporterPDF.exportarPDF(response);
 
-    }
-
+     }
+    
     @RequestMapping("/exportarExcel")
     public void exportarExcel(HttpServletResponse response) throws DocumentException, IOException {
         //* Devuelve el tipo de contenido */
-        /*response.setContentType("application/octet-stream");
+        response.setContentType("application/octet-stream");
 
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String fechaActual = dateFormatter.format(new Date());
         String cabecera = "Content-Disposition";
-        String valor = "attachment; filename=Categorias_" + fechaActual + ".xlsx";
+        String valor = "attachment; filename=Usuarios_" + fechaActual + ".xlsx";
 
         response.setHeader(cabecera, valor);
-        List<Categoria> categorias = categoriaService.cargarCategoria();
+        List<Usuario> usuarios = usuarioService.cargarUsuarios();
 
-        CategoriaExporterEXCEL exporterPDF = new CategoriaExporterEXCEL(categorias);
+        UsuariosExporterEXCEL exporterEXCEL = new UsuariosExporterEXCEL(usuarios);
 
-        exporterPDF.exportarExcel(response);
+        exporterEXCEL.exportarExcel(response);
 
-    }*/
+    }
 }

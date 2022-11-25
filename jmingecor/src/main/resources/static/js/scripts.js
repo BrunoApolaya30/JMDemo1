@@ -1,3 +1,5 @@
+import { limpiar, editado, ver, eliminado } from "./helpers.js";
+
 //* Modal
 //* Categoria
 ((d) => {
@@ -24,7 +26,38 @@
       "precio_obra_material",
     ],
     txtjornales = ["id", "unidad", "costo", "categoria"],
-    txtalmacen = ["id", "ubicacion", "descripcion"];
+    txtalmacen = ["id", "ubicacion", "descripcion"],
+    txtpersonal = [
+      "id",
+      "name",
+      "apellidos",
+      "cargo",
+      "dni",
+      "direccion",
+      "telefono",
+      "correo",
+    ],
+    txtcliente = [
+      "id",
+      "documento_ruc",
+      "nombre_rz",
+      "direccion",
+      "correo",
+      "telefono",
+      "estado",
+      "fecha",
+    ],
+    txtcontactocampo = ["id", "empresa", "cargo_empresa", "telefono", "correo"],
+    txtusuario = [
+      "id",
+      "documento",
+      "nombre_completo",
+      "cargo",
+      "correo",
+      "clave",
+      "estado",
+      "fecha_registro",
+    ];
   const $editcategoria = d.querySelectorAll("#editcategoria"),
     $vercategoria = d.querySelectorAll("#vercategoria"),
     $eliminarcategoria = d.querySelectorAll("#eliminarcategoria"),
@@ -49,195 +82,128 @@
     $veralmacen = d.querySelectorAll("#veralmacen"),
     $eliminaralmacen = d.querySelectorAll("#eliminaralmacen"),
     $deletealmacen = d.getElementById("deletealmacen"),
-    $limpiaralmacen = d.getElementById("limpiaralmacen");
-  ($buscar = d.getElementById("search")),
-    ($select = d.getElementById("select"));
+    $limpiaralmacen = d.getElementById("limpiaralmacen"),
+    $editpersonal = d.querySelectorAll("#editpersonal"),
+    $verpersonal = d.querySelectorAll("#verpersonal"),
+    $eliminarpersonal = d.querySelectorAll("#eliminarpersonal"),
+    $deletepersonal = d.getElementById("deletepersonal"),
+    $limpiarpersonal = d.getElementById("limpiarpersonal"),
+    $editcliente = d.querySelectorAll("#editcliente"),
+    $vercliente = d.querySelectorAll("#vercliente"),
+    $eliminarcliente = d.querySelectorAll("#eliminarcliente"),
+    $deletecliente = d.getElementById("deletecliente"),
+    $limpiarcliente = d.getElementById("limpiarcliente"),
+    $editcontactocampo = d.querySelectorAll("#editcontactocampo"),
+    $vercontactocampo = d.querySelectorAll("#vercontactocampo"),
+    $eliminarcontactocampo = d.querySelectorAll("#eliminarcontactocampo"),
+    $deletecontactocampo = d.getElementById("deletecontactocampo"),
+    $limpiarcontactocampo = d.getElementById("limpiarcontactocampo"),
+    $editusuario = d.querySelectorAll("#editusuario"),
+    $verusuario = d.querySelectorAll("#verusuario"),
+    $eliminarusuario = d.querySelectorAll("#eliminarusuario"),
+    $deleteusuario = d.getElementById("deleteusuario"),
+    $limpiarusuario = d.getElementById("limpiarusuario"),
+    $buscar = d.getElementById("search"),
+    $select = d.getElementById("select");
+
+  //*Categoria
   if ($limpiarcategoria) {
-    $limpiarcategoria.addEventListener("click", (e) => {
-      txtcategoria.forEach((ele) => {
-        d.getElementById(ele).value = "";
-      });
-    });
+    limpiar(d, $limpiarcategoria, txtcategoria);
   }
+  editado(d, $editcategoria, txtcategoria, $limpiarcategoria);
 
-  $editcategoria.forEach((el) => {
-    el.addEventListener("click", () => {
-      txtcategoria.forEach((ele) => {
-        d.getElementById(ele).value = eval(`el.dataset.${ele}`);
-        d.getElementById(ele).disabled = false;
-      });
-      $limpiarcategoria.style = "display:block";
-    });
-  });
+  ver(d, $vercategoria, txtcategoria, $limpiarcategoria, "Categoria");
 
-  $vercategoria.forEach((el) => {
-    el.addEventListener("click", () => {
-      txtcategoria.forEach((ele) => {
-        d.getElementById(ele).value = eval(`el.dataset.${ele}`);
-        d.getElementById(ele).disabled = true;
-      });
-      d.getElementById("exampleModalLabel").textContent = "VER CATEGORIA";
-      d.getElementById("btn-guardar").style = "display : none";
-      $limpiarcategoria.style = "display : none";
-    });
-  });
-  $eliminarcategoria.forEach((el) => {
-    el.addEventListener("click", (e) => {
-      $deletecategoria.dataset.id = el.dataset.id;
-    });
-  });
+  eliminado($eliminarcategoria, $deletecategoria);
 
   //*Equipo
-
-  if ($limpiarequipo) {
-    $limpiarequipo.addEventListener("click", (e) => {
-      txtequipo.forEach((ele) => {
-        d.getElementById(ele).value = "";
-      });
-    });
+  if ((d, $limpiarequipo)) {
+    limpiar(d, $limpiarequipo, txtequipo);
   }
+  editado(d, $editequipo, txtequipo, $limpiarequipo);
 
-  $editequipo.forEach((el) => {
-    el.addEventListener("click", () => {
-      txtequipo.forEach((ele) => {
-        d.getElementById(ele).value = eval(`el.dataset.${ele}`);
-        d.getElementById(ele).disabled = false;
-      });
-      d.getElementById("btn-guardar").style = "display : block";
-      $limpiarequipo.style = "display:block";
-    });
-  });
+  ver(d, $verequipo, txtequipo, $limpiarequipo, "Equipo");
 
-  $verequipo.forEach((el) => {
-    el.addEventListener("click", () => {
-      txtequipo.forEach((ele) => {
-        d.getElementById(ele).value = eval(`el.dataset.${ele}`);
-        d.getElementById(ele).disabled = true;
-      });
-      d.getElementById("exampleModalLabel").textContent = "Ver Equipo";
-      d.getElementById("btn-guardar").style = "display : none";
-      $limpiarequipo.style = "display : none";
-    });
-  });
-  $eliminarequipo.forEach((el) => {
-    el.addEventListener("click", (e) => {
-      $deleteequipo.dataset.id = el.dataset.id;
-    });
-  });
+  eliminado($eliminarequipo, $deleteequipo);
 
   //*Material
 
-  if ($limpiarmaterial) {
-    $limpiarmaterial.addEventListener("click", (e) => {
-      txtmaterial.forEach((ele) => {
-        d.getElementById(ele).value = "";
-      });
-    });
+  if ((d, $limpiarmaterial)) {
+    limpiar(d, $limpiarmaterial, txtmaterial);
   }
+  editado(d, $editmaterial, txtmaterial, $limpiarmaterial);
 
-  $editmaterial.forEach((el) => {
-    el.addEventListener("click", () => {
-      txtmaterial.forEach((ele) => {
-        d.getElementById(ele).value = eval(`el.dataset.${ele}`);
-        d.getElementById(ele).disabled = false;
-      });
-      d.getElementById("btn-guardar").style = "display : block";
-      $limpiarmaterial.style = "display:block";
-    });
-  });
+  ver(d, $vermaterial, txtmaterial, $limpiarmaterial, "Material");
 
-  $vermaterial.forEach((el) => {
-    el.addEventListener("click", () => {
-      txtmaterial.forEach((ele) => {
-        d.getElementById(ele).value = eval(`el.dataset.${ele}`);
-        d.getElementById(ele).disabled = true;
-      });
-      d.getElementById("exampleModalLabel").textContent = "VER MATERIAL";
-      d.getElementById("btn-guardar").style = "display : none";
-      $limpiarmaterial.style = "display : none";
-    });
-  });
-  $eliminarmaterial.forEach((el) => {
-    el.addEventListener("click", (e) => {
-      $deletematerial.dataset.id = el.dataset.id;
-    });
-  });
+  eliminado($eliminarmaterial, $deletematerial);
 
   //*Jornales
 
-  if ($limpiarjornales) {
-    $limpiarjornales.addEventListener("click", (e) => {
-      txtjornales.forEach((ele) => {
-        d.getElementById(ele).value = "";
-      });
-    });
+  if ((d, $limpiarjornales)) {
+    limpiar(d, $limpiarjornales, txtjornales);
   }
+  editado(d, $editjornales, txtjornales, $limpiarjornales);
 
-  $editjornales.forEach((el) => {
-    el.addEventListener("click", () => {
-      txtjornales.forEach((ele) => {
-        d.getElementById(ele).value = eval(`el.dataset.${ele}`);
-        d.getElementById(ele).disabled = false;
-      });
-      d.getElementById("btn-guardar").style = "display : block";
-      $limpiarjornales.style = "display:block";
-    });
-  });
+  ver(d, $verjornales, txtjornales, $limpiarjornales, "Jornal");
 
-  $verjornales.forEach((el) => {
-    el.addEventListener("click", () => {
-      txtjornales.forEach((ele) => {
-        d.getElementById(ele).value = eval(`el.dataset.${ele}`);
-        d.getElementById(ele).disabled = true;
-      });
-      d.getElementById("exampleModalLabel").textContent = "Ver Jornales";
-      d.getElementById("btn-guardar").style = "display : none";
-      $limpiarjornales.style = "display : none";
-    });
-  });
-  $eliminarjornales.forEach((el) => {
-    el.addEventListener("click", (e) => {
-      $deletejornales.dataset.id = el.dataset.id;
-    });
-  });
+  eliminado($eliminarjornales, $deletejornales);
 
   //*Almacen
 
-  if ($limpiaralmacen) {
-    $limpiaralmacen.addEventListener("click", (e) => {
-      txtalmacen.forEach((ele) => {
-        d.getElementById(ele).value = "";
-      });
-    });
+  if ((d, $limpiaralmacen)) {
+    limpiar(d, $limpiaralmacen, txtalmacen);
   }
+  editado(d, $editalmacen, txtalmacen, $limpiaralmacen);
 
-  $editalmacen.forEach((el) => {
-    el.addEventListener("click", () => {
-      txtalmacen.forEach((ele) => {
-        d.getElementById(ele).value = eval(`el.dataset.${ele}`);
-        d.getElementById(ele).disabled = false;
-      });
-      d.getElementById("btn-guardar").style = "display : block";
-      $limpiaralmacen.style = "display:block";
-    });
-  });
+  ver(d, $veralmacen, txtalmacen, $limpiaralmacen, "Almacen");
 
-  $veralmacen.forEach((el) => {
-    el.addEventListener("click", () => {
-      txtalmacen.forEach((ele) => {
-        d.getElementById(ele).value = eval(`el.dataset.${ele}`);
-        d.getElementById(ele).disabled = true;
-      });
-      d.getElementById("exampleModalLabel").textContent = "Ver Almacenes";
-      d.getElementById("btn-guardar").style = "display : none";
-      $limpiaralmacen.style = "display : none";
-    });
-  });
-  $eliminaralmacen.forEach((el) => {
-    el.addEventListener("click", (e) => {
-      $deletealmacen.dataset.id = el.dataset.id;
-    });
-  });
+  eliminado($eliminaralmacen, $deletealmacen);
+
+  //*Personal
+  if ((d, $limpiarpersonal)) {
+    limpiar(d, $limpiarpersonal, txtpersonal);
+  }
+  editado(d, $editpersonal, txtpersonal, $limpiarpersonal);
+
+  ver(d, $verpersonal, txtpersonal, $limpiarpersonal, "Personal");
+
+  eliminado($eliminarpersonal, $deletepersonal);
+
+  //*ContactoCampo
+  if ((d, $limpiarcontactocampo)) {
+    limpiar(d, $limpiarcontactocampo, txtcontactocampo);
+  }
+  editado(d, $editcontactocampo, txtcontactocampo, $limpiarcontactocampo);
+
+  ver(
+    d,
+    $vercontactocampo,
+    txtcontactocampo,
+    $limpiarcontactocampo,
+    "Contacto Campo"
+  );
+
+  eliminado($eliminarcontactocampo, $deletecontactocampo);
+
+  //*Cliente
+  if ((d, $limpiarcliente)) {
+    limpiar(d, $limpiarcliente, txtcliente);
+  }
+  editado(d, $editcliente, txtcliente, $limpiarcliente);
+
+  ver(d, $vercliente, txtcliente, $limpiarcliente, "Cliente");
+
+  eliminado($eliminarcliente, $deletecliente);
+
+  //*Usuario
+  if ((d, $limpiarusuario)) {
+    limpiar(d, $limpiarusuario, txtusuario);
+  }
+  editado(d, $editusuario, txtusuario, $limpiarusuario);
+
+  ver(d, $verusuario, txtusuario, $limpiarusuario, "Usuario");
+
+  eliminado($eliminarusuario, $deleteusuario);
 
   // **Enviar Registros Paginación
   $select.addEventListener("change", (e) => {
@@ -304,6 +270,54 @@
       $limpiaralmacen.style = "display:block";
     }
 
+    if (
+      e.target.matches("#agregarpersonal") ||
+      e.target.matches("#iconpersonal")
+    ) {
+      txtpersonal.forEach((el) => {
+        d.getElementById(el).value = "";
+        d.getElementById(el).disabled = false;
+      });
+      d.getElementById("btn-guardar").style = "display : block";
+      $limpiarpersonal.style = "display:block";
+    }
+
+    if (
+      e.target.matches("#agregarcliente") ||
+      e.target.matches("#iconcliente")
+    ) {
+      txtcliente.forEach((el) => {
+        d.getElementById(el).value = "";
+        d.getElementById(el).disabled = false;
+      });
+      d.getElementById("btn-guardar").style = "display : block";
+      $limpiarcliente.style = "display:block";
+    }
+
+    if (
+      e.target.matches("#agregarcontactocampo") ||
+      e.target.matches("#iconcontactocampo")
+    ) {
+      txtcontactocampo.forEach((el) => {
+        d.getElementById(el).value = "";
+        d.getElementById(el).disabled = false;
+      });
+      d.getElementById("btn-guardar").style = "display : block";
+      $limpiarcontactocampo.style = "display:block";
+    }
+
+    if (
+      e.target.matches("#agregarusuario") ||
+      e.target.matches("#iconusuario")
+    ) {
+      txtusuario.forEach((el) => {
+        d.getElementById(el).value = "";
+        d.getElementById(el).disabled = false;
+      });
+      d.getElementById("btn-guardar").style = "display : block";
+      $limpiarusuario.style = "display:block";
+    }
+
     // Eliminación
     if (e.target.matches("#deletecategoria")) {
       window.location.href = `/categoria/eliminar/${e.target.dataset.id}`;
@@ -319,6 +333,18 @@
     }
     if (e.target.matches("#deletealmacen")) {
       window.location.href = `/almacen/eliminar/${e.target.dataset.id}`;
+    }
+    if (e.target.matches("#deletepersonal")) {
+      window.location.href = `/personal/eliminar/${e.target.dataset.id}`;
+    }
+    if (e.target.matches("#deletecliente")) {
+      window.location.href = `/cliente/eliminar/${e.target.dataset.id}`;
+    }
+    if (e.target.matches("#deletecontactocampo")) {
+      window.location.href = `/contactocampo/eliminar/${e.target.dataset.id}`;
+    }
+    if (e.target.matches("#deleteusuario")) {
+      window.location.href = `/usuario/eliminar/${e.target.dataset.id}`;
     }
   });
   // * Buscar

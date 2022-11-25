@@ -1,9 +1,15 @@
 package com.jmingecor.jmingecor.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jmingecor.jmingecor.model.entity.Cliente;
 import com.jmingecor.jmingecor.model.service.IClienteService;
+import com.jmingecor.jmingecor.util.report.ClientesExporterEXCEL;
+import com.jmingecor.jmingecor.util.report.ClientesExporterPDF;
+import com.lowagie.text.DocumentException;
 
 @Controller
 @RequestMapping("/cliente")
@@ -72,4 +81,43 @@ public class ClienteController {
         clienteService.guardarCliente(cliente);
         return "redirect:/cliente/";
     }
+
+     @RequestMapping("/exportarPdf")
+     public void exportarPDF(HttpServletResponse response) throws DocumentException, IOException {
+         //* Devuelve el tipo de contenido */
+         response.setContentType("application/pdf");
+
+         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+         String fechaActual = dateFormatter.format(new Date());
+         String cabecera = "Content-Disposition";
+         String valor = "attachment; filename=Clientes_" + fechaActual + ".pdf";
+
+         response.setHeader(cabecera, valor);
+         List<Cliente> clientes = clienteService.cargarClientes();
+
+         ClientesExporterPDF exporterPDF = new ClientesExporterPDF(clientes);
+
+         exporterPDF.exportarPDF(response);
+
+     }
+    
+    @RequestMapping("/exportarExcel")
+    public void exportarExcel(HttpServletResponse response) throws DocumentException, IOException {
+        //* Devuelve el tipo de contenido */
+        response.setContentType("application/octet-stream");
+
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Clientes_" + fechaActual + ".xlsx";
+
+        response.setHeader(cabecera, valor);
+        List<Cliente> clientes = clienteService.cargarClientes();
+
+        ClientesExporterEXCEL exporterEXCEL = new ClientesExporterEXCEL(clientes);
+
+        exporterEXCEL.exportarExcel(response);
+
+    }
+
 }

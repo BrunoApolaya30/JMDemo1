@@ -12,7 +12,7 @@ import com.jmingecor.jmingecor.model.entity.DetalleSolicitudCompra;
 import com.jmingecor.jmingecor.model.repository.IDetalleSolicitudCompraRepository;
 
 @Service
-public class IDetalleSolicitudCompraImp implements IDetalleSolicitudCompraService{
+public class DetalleSolicitudCompraServiceImp implements IDetalleSolicitudCompraService{
     
     @Autowired
     private IDetalleSolicitudCompraDAO detalleSolicitudCompraDAO;

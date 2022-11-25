@@ -14,7 +14,7 @@ public class ContactoCampo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_contacto_campo")
-    private Long id_contacto_campo;
+    private Long id;
 
     @Column(name = "empresa")
     private String empresa;
@@ -28,12 +28,12 @@ public class ContactoCampo {
     @Column(name = "correo")
     private String correo;
 
-    public Long getId_contacto_campo() {
-        return id_contacto_campo;
+    public Long getId() {
+        return id;
     }
 
-    public void setId_contacto_campo(Long id_contacto_campo) {
-        this.id_contacto_campo = id_contacto_campo;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmpresa() {

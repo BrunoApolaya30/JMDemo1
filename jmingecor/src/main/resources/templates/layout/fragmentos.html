@@ -118,7 +118,7 @@
               </a>
               <ul class="full-width menu-principal sub-menu-options">
                 <li class="full-width">
-                  <a href="admin.html" class="full-width">
+                  <a th:href="@{/usuario/}" class="full-width">
                     <div class="navLateral-body-cl">
                       <i class="zmdi zmdi-account"></i>
                     </div>
@@ -126,7 +126,7 @@
                   </a>
                 </li>
                 <li class="full-width">
-                  <a href="client.html" class="full-width">
+                  <a th:href="@{/personal/}" class="full-width">
                     <div class="navLateral-body-cl">
                       <i class="zmdi zmdi-accounts"></i>
                     </div>
@@ -142,7 +142,7 @@
                   </a>
                 </li>
                 <li class="full-width">
-                  <a href="client.html" class="full-width">
+                  <a th:href="@{/contactocampo/}" class="full-width">
                     <div class="navLateral-body-cl">
                       <i class="zmdi zmdi-account"></i>
                     </div>
@@ -359,7 +359,7 @@
         crossorigin="anonymous"
       ></script>
 
-      <script th:src="@{/js/scripts.js}"></script>
+      <script th:src="@{/js/scripts.js}" th:type="module"></script>
     </div>
   </body>
 </html>

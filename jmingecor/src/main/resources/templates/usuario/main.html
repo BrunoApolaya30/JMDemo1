@@ -16,25 +16,25 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
                 <div class="card mx-auto ">
                     <div class="card-header text-dark py-4">
                         <div class="row justify-content-evenly align-items-center">
-                            <div class="col-12 col-lg-6 text-center fw-600 fs-3">Clientes actualmente</div>
+                            <div class="col-12 col-lg-6 text-center fw-600 fs-3">Usuarios Actualmente</div>
                             <div class="col-12 col-lg-6 text-center">
                                 <div class="row py-3 justify-content-center">
                                     <div class="col-12">
-                                        <form th:action="@{/cliente/buscar/}" style="display: none;">
+                                        <form th:action="@{/usuario/buscar/}" style="display: none;">
                                             <button type="submit"  class="btn-sm btn-primary px-4 py-2"><i class="fas fa-search p-0 m-0"></i></button>
                                         </form>
                                         <input type="text" id="search" name="id" placeholder="Buscar" class="text-start ps-2 mx-4 p-0 dash_search form-control-sm ">
-                                        <a href="" id="agregarcliente" class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#formModal" >
+                                        <a href="" id="agregarusuario" class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#formModal" >
                                             
-                                            <i id="iconproveedor" class="fas fa-plus "></i>
+                                            <i id="iconusuario" class="fas fa-plus "></i>
                                         </a>
-                                        <a th:href="@{/cliente/exportarPdf/}" id="agregarcliente" class="btn btn-danger my-2"  >
+                                        <a th:href="@{/usuario/exportarPdf/}" id="agregarusuario" class="btn btn-danger my-2"  >
                                             PDF
-                                            <i id="iconproveedor" class="fas fa-plus "></i>
+                                            <i id="iconusuario" class="fas fa-plus "></i>
                                         </a>
-                                        <a th:href="@{/cliente/exportarExcel/}" id="agregarcliente" class="btn btn-success"  >
+                                        <a th:href="@{/usuario/exportarExcel/}" id="agregarusuario" class="btn btn-success"  >
                                             Excel
-                                            <i id="iconproveedor" class="fas fa-plus "></i>
+                                            <i id="iconusuario" class="fas fa-plus "></i>
                                         </a>
                                     </div>
                                 </div>
@@ -57,10 +57,10 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
                             <thead>
                                 <tr>
                                     <th class="px-3">ID</th>
-                                    <th class="px-3">Documenteo</th>
-                                    <th class="px-3">Razon social</th>
-                                    <th class="px-3">Direccion</th>
-                                    <th class="px-3">Correo</th>
+                                    <th class="px-3">Documento</th>
+                                    <th class="px-3">Nombre</th>
+                                    <th class="px-3">Cargo</th>
+                                    <th class="px-3">Estado</th>
                                     <th class="px-3"></th>
                                     <th class="px-3"></th>
                                     <th class="px-4"></th>
@@ -69,28 +69,29 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
                             <tbody>
                                 <tr th:each="item: ${list}">
                                     <td th:text="${item.id}"></td>
-                                    <td th:text="${item.documento_ruc}" th:data-nombre="${item.documento_ruc}"></td>
-                                    <td th:text="${item.nombre_rz}"></td>                               
-                                    <td th:text="${item.direccion}"></td> 
-                                    <td th:text="${item.correo}"></td>                                  
+                                    <td th:text="${item.documento}" th:data-nombre="${item.documento}"></td>
+                                    <td th:text="${item.nombre_completo}"></td>                               
+                                    <td th:text="${item.cargo.tipo}"></td> 
+                                    <td th:text="${item.estado}"></td>                                  
                                     <td>
                                         <a 
-                                         th:href="@{/cliente/editar/} + ${item.id}" 
-                                         id="editcliente"
+                                         th:href="@{/usuario/editar/} + ${item.id}" 
+                                         id="editusuario"
                                          th:data-id="${item.id}"
-                                         th:data-documento_ruc="${item.documento_ruc}"
-                                         th:data-nombre_rz="${item.nombre_rz}"
-                                         th:data-direccion="${item.direccion}"
+                                         th:data-documento="${item.documento}"
+                                         th:data-nombre_completo="${item.nombre_completo}"
+                                         th:data-cargo="${item.cargo.id}"
                                          th:data-correo="${item.correo}"
-                                         th:data-telefono="${item.telefono}"
+                                         th:data-clave="${item.clave}"
                                          th:data-estado="${item.estado}"
-                                         th:data-fecha="${item.fecha}"
+                                         th:data-fecha_registro="${item.fecha_registro}"
+                                         
                                          class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#formModal"> 
                                          <i class="fas fa-edit" ></i> Editar</a>
                                     </td>
                                     <td>
                                         <a 
-                                        id="eliminarcliente"
+                                        id="eliminarusuario"
                                         th:data-id="${item.id}"
                                         data-bs-toggle="modal" data-bs-target="#formModal2"                                    
                                         class="btn btn-danger"> 
@@ -98,16 +99,16 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
                                     </td>                                   
                                     <td>
                                         <a 
-                                        th:href="@{/cliente/ver/} + ${item.id}" 
-                                        id="vercliente"
+                                        th:href="@{/usuario/ver/} + ${item.id}" 
+                                        id="verusuario"
                                         th:data-id="${item.id}"
-                                        th:data-documento_ruc="${item.documento_ruc}"
-                                        th:data-nombre_rz="${item.nombre_rz}"
-                                        th:data-direccion="${item.direccion}"
+                                        th:data-documento="${item.documento}"
+                                        th:data-nombre_completo="${item.nombre_completo}"
+                                        th:data-cargo="${item.cargo.id}"
                                         th:data-correo="${item.correo}"
-                                        th:data-telefono="${item.telefono}"
+                                        th:data-clave="${item.clave}"
                                         th:data-estado="${item.estado}"
-                                        th:data-fecha="${item.fecha}"
+                                        th:data-fecha_registro="${item.fecha_registro}"
                                         class="btn btn-secondary px-2" data-bs-toggle="modal" data-bs-target="#formModal"> 
                                         <i class="fas fa-eye pe-1 "></i>Ver</a>
                                     </td>                                   
@@ -144,7 +145,7 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
     <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form  method="post" th:action="@{/cliente/form}" th:object="${cliente}" >
+                <form  method="post" th:action="@{/usuario/form}" th:object="${usuario}" >
                     <input id="id" type="hidden" th:field="*{id}">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel" ></h5>
@@ -153,59 +154,69 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
                     <div class="modal-body">
                         <div class ="row">
                             <div class="col-12  mb-3">
-                                <label>Documento - ruc</label>
-                                <input id="documento_ruc" type="text" class="form-control" 
-                                th:field="*{documento_ruc}"
-                                placeholder="Ingrese documento - ruc"/>
+                                <label>Documento</label>
+                                <input id="documento" type="text" class="form-control" 
+                                th:field="*{documento}"
+                                placeholder="Ingrese documento"/>
                             </div>
                         </div>   
                         <div class="row">
                             <div class="col-12  mb-3">
-                                <label>Nombre - Razon Social</label>
-                                <input id="nombre_rz" type="text" class="form-control" 
-                                th:field="*{nombre_rz}"
-                                placeholder="Ingrese nombre - rz"/>
+                                <label>Nombre</label>
+                                <input id="nombre_completo" type="text" class="form-control" 
+                                th:field="*{nombre_completo}"
+                                placeholder="Ingrese nombre"/>
                             </div>
                         </div> 
                         <div class="row">
-                            <div class="col-12  mb-3">
-                                <label>Direccion</label>
-                                <input id="direccion" type="text" class="form-control" 
-                                th:field="*{direccion}"
-                                placeholder="Ingrese direccion"/>
+                            <div class="col-6 col-sm-6  mb-3">
+                                <label>TIpo Cargo</label>
+                                <select
+                                    id="cargo"
+                                    class="form-select"
+                                    th:field="*{cargo.id}"
+                                    required
+                                >
+                                    <option value="">-- Seleccione Cargo</option>
+                                    <option
+                                    th:each="item: ${listaCargos}"
+                                    th:value="${item.id}"
+                                    th:text="${item.tipo}"
+                                    ></option>
+                                </select>
                             </div>
-                        </div> 
-                        <div class="row">
                             <div class="col-6  mb-3">
                                 <label>Correo</label>
-                                <input id="correo" type="text" class="form-control" 
+                                <input id="correo" type="email" class="form-control" 
                                 th:field="*{correo}"
-                                placeholder="Ingrese correo"/>
+                                placeholder="Ingrese direccion"/>
                             </div>
-                            <div class="col-6  mb-3">
-                                <label>Telefono</label>
-                                <input id="telefono" type="text" class="form-control" 
-                                th:field="*{telefono}"
-                                placeholder="Ingrese telefono"/>
-                            </div>
-                        </div>      
+                        </div>   
                         <div class="row">
+                            <div class="col-6  mb-3">
+                                <label>Clave</label>
+                                <input id="clave" type="password" class="form-control" 
+                                th:field="*{clave}"
+                                placeholder="Ingrese Clave"/>
+                            </div>
                             <div class="col-6  mb-3">
                                 <label>Estado</label>
                                 <input id="estado" type="text" class="form-control" 
                                 th:field="*{estado}"
-                                placeholder="Ingrese estado"/>
+                                placeholder="Ingrese Estado"/>
                             </div>
-                            <div class="col-6  mb-3">
+                        </div>      
+                        <div class="row">
+                            <div class="col-12  mb-3">
                                 <label>Fecha registro</label>
-                                <input id="fecha" type="date" class="form-control" 
-                                th:field="*{fecha}"
+                                <input id="fecha_registro" type="date" class="form-control" 
+                                th:field="*{fecha_registro}"
                                 placeholder="Ingrese fecha registro"/>
                             </div>
                         </div>                   
                     </div>
                     <div class="modal-footer">                
-                        <button id="limpiarcliente" type="button"  class="btn btn-secondary text-black ">LIMPIAR</button>
+                        <button id="limpiarusuario" type="button"  class="btn btn-secondary text-black ">LIMPIAR</button>
                         <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
                         <input type="submit" id="btn-guardar" class="btn btn-primary" value="GUARDAR">
                     </div>
@@ -229,7 +240,7 @@ xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
                     </div>
                     <div class="modal-footer">
                     <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
-                    <a id="deletecliente" type="submit" class="btn btn-danger">SI, estoy Seguro</a>
+                    <a id="deleteusuario" type="submit" class="btn btn-danger">SI, estoy Seguro</a>
             </div>
         </div>
         </div>

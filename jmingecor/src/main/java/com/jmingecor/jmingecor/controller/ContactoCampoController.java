@@ -1,9 +1,15 @@
 package com.jmingecor.jmingecor.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jmingecor.jmingecor.model.entity.ContactoCampo;
 import com.jmingecor.jmingecor.model.service.IContactoCampoService;
+import com.jmingecor.jmingecor.util.report.ContactoCampoExporterEXCEL;
+import com.jmingecor.jmingecor.util.report.ContactoCampoExporterPDF;
+import com.lowagie.text.DocumentException;
 
 @Controller
 @RequestMapping("/contactocampo")
@@ -50,7 +59,7 @@ public class ContactoCampoController {
         model.addAttribute("prev", page);
         model.addAttribute("last", totalPage);
         model.addAttribute("numPage", numPage);
-        return "contactoCampo/main";
+        return "contactocampo/main";
     }
 
     @RequestMapping("/editar/{id_contacto_campo}")
@@ -58,19 +67,57 @@ public class ContactoCampoController {
         ContactoCampo objContactoCampo = contactoCampoService.buscarContactoCampo(id_contacto_campo);
         model.addAttribute("contactoCampo", objContactoCampo);
         model.addAttribute("listaContactoCampo", contactoCampoService.cargarContactosCampo());
-        return "contactoCampo/main";   
+        return "contactocampo/main";   
     }
     
     @RequestMapping("/eliminar/{id_contacto_campo}")
     public String delete(@PathVariable(value = "id_contacto_campo") Long id_contacto_campo, Model model) {
         contactoCampoService.eliminarContactoCampo(id_contacto_campo);
-        return "redirect:/contactoCampo/";
+        return "redirect:/contactocampo/";
     }
 
     @RequestMapping(value="/form", method = RequestMethod.POST)
-    public String store(ContactoCampo contactoCampo, Model model){
+    public String store(ContactoCampo contactoCampo, Model model) {
         contactoCampoService.guardarContactoCampo(contactoCampo);
-        return "redirect:/contactoCampo/";
+        return "redirect:/contactocampo/";
     }
 
+    
+         @RequestMapping("/exportarPdf")
+     public void exportarPDF(HttpServletResponse response) throws DocumentException, IOException {
+         //* Devuelve el tipo de contenido */
+         response.setContentType("application/pdf");
+
+         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+         String fechaActual = dateFormatter.format(new Date());
+         String cabecera = "Content-Disposition";
+         String valor = "attachment; filename=ContactoCampo_" + fechaActual + ".pdf";
+
+         response.setHeader(cabecera, valor);
+         List<ContactoCampo> contactoCampo = contactoCampoService.cargarContactosCampo();
+
+         ContactoCampoExporterPDF exporterPDF = new ContactoCampoExporterPDF(contactoCampo);
+
+         exporterPDF.exportarPDF(response);
+
+     }
+    
+    @RequestMapping("/exportarExcel")
+    public void exportarExcel(HttpServletResponse response) throws DocumentException, IOException {
+        //* Devuelve el tipo de contenido */
+        response.setContentType("application/octet-stream");
+
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=ContactoCampo_" + fechaActual + ".xlsx";
+
+        response.setHeader(cabecera, valor);
+        List<ContactoCampo> contactoCampos = contactoCampoService.cargarContactosCampo();
+
+        ContactoCampoExporterEXCEL exporterEXCEL = new ContactoCampoExporterEXCEL(contactoCampos);
+
+        exporterEXCEL.exportarExcel(response);
+
+    }
 }

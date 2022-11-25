@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,10 +18,10 @@ public class Personal implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_personal")
-    private Long id_personal;
+    private Long id;
 
-    //@ManyToOne
-    @Column(name = "id_cargo")
+    @ManyToOne
+    @JoinColumn(name = "id_cargo")
     Cargo cargo;
 
     @Column(name = "nombre")
@@ -40,12 +42,12 @@ public class Personal implements Serializable{
     @Column(name = "correo")
     private String correo;
 
-    public Long getId_personal() {
-        return id_personal;
+    public Long getId() {
+        return id;
     }
 
-    public void setId_personal(Long id_personal) {
-        this.id_personal = id_personal;
+    public void setId_personal(Long id) {
+        this.id = id;
     }
 
     public Cargo getCargo() {
