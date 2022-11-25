@@ -22,32 +22,27 @@ public class SeguimientoCotizacionesServiceImp implements ISeguimientoCotizacion
 
 
     @Override
-    public void guardarSeguimientoCotizaciones(SeguimientoCotizaciones seguimientoCotizaciones) {
-        // TODO Auto-generated method stub
+    public void guardarSeguimientoCotizaciones(SeguimientoCotizaciones seguimientoCotizaciones) {        
         seguimientoCotizacionesDAO.save(seguimientoCotizaciones);
     }
 
     @Override
-    public List<SeguimientoCotizaciones> cargarSeguimientoCotizaciones() {
-        // TODO Auto-generated method stub
+    public List<SeguimientoCotizaciones> cargarSeguimientoCotizaciones() {        
         return (List<SeguimientoCotizaciones>) seguimientoCotizacionesDAO.findAll();
     }
 
     @Override
-    public SeguimientoCotizaciones buscarSeguimientoCotizaciones(Long id_scotizaciones) {
-        // TODO Auto-generated method stub
+    public SeguimientoCotizaciones buscarSeguimientoCotizaciones(Long id_scotizaciones) {        
         return seguimientoCotizacionesDAO.findById(id_scotizaciones).orElse(null);
     }
 
     @Override
-    public void eliminarSeguimientoCotizaciones(Long id_scotizaciones) {
-        // TODO Auto-generated method stub
+    public void eliminarSeguimientoCotizaciones(Long id_scotizaciones) {        
         seguimientoCotizacionesDAO.deleteById(id_scotizaciones);
     }
 
     @Override
-    public Page<SeguimientoCotizaciones> getAll(Pageable pageable) {
-        // TODO Auto-generated method stub
+    public Page<SeguimientoCotizaciones> getAll(Pageable pageable) {        
         return seguimientoCotizacionesRepository.findAll(pageable);
     }
     

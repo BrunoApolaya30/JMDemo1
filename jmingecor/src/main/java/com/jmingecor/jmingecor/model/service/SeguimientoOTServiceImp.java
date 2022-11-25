@@ -21,32 +21,27 @@ public class SeguimientoOTServiceImp implements ISeguimientoOTService {
     private ISeguimientoOTRepository seguimientoOTRepository;
 
     @Override
-    public void guardarSeguimientoOT(SeguimientoOT seguimientoOT) {
-        // TODO Auto-generated method stub
+    public void guardarSeguimientoOT(SeguimientoOT seguimientoOT) {        
         seguimientoOTDAO.save(seguimientoOT);
     }
 
     @Override
-    public List<SeguimientoOT> cargarSeguimientoOT() {
-        // TODO Auto-generated method stub
+    public List<SeguimientoOT> cargarSeguimientoOT() {        
         return (List<SeguimientoOT>) seguimientoOTDAO.findAll();
     }
 
     @Override
-    public SeguimientoOT buscarSeguimientoOT(Long id_seguimiento_ot) {
-        // TODO Auto-generated method stub
+    public SeguimientoOT buscarSeguimientoOT(Long id_seguimiento_ot) {        
         return seguimientoOTDAO.findById(id_seguimiento_ot).orElse(null);
     }
 
     @Override
-    public void eliminarSeguimientoOT(Long id_seguimiento_ot) {
-        // TODO Auto-generated method stub
+    public void eliminarSeguimientoOT(Long id_seguimiento_ot) {        
         seguimientoOTDAO.deleteById(id_seguimiento_ot);
     }
 
     @Override
-    public Page<SeguimientoOT> getAll(Pageable pageable) {
-        // TODO Auto-generated method stub
+    public Page<SeguimientoOT> getAll(Pageable pageable) {        
         return seguimientoOTRepository.findAll(pageable);
     }
     

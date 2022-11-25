@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -39,15 +40,15 @@ public class SeguimientoCotizaciones implements Serializable{
     private String observaciones;
 
     @ManyToOne
-    @Column(name = "id_cotizacion")
+    @JoinColumn(name = "id_cotizacion")
     Cotizacion cotizacion;
 
     @ManyToOne
-    @Column(name = "id_cliente")
+    @JoinColumn(name = "id_cliente")
     Cliente cliente;
 
     @ManyToOne
-    @Column(name = "id_usuario")
+    @JoinColumn(name = "id_usuario")
     Usuario usuario;
 
     public Long getId_scotizaciones() {
